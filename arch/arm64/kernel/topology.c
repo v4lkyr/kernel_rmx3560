@@ -168,8 +168,49 @@ enable_policy_freq_counters(int cpu, cpumask_var_t valid_cpus)
 	return true;
 }
 
-static DEFINE_STATIC_KEY_FALSE(amu_fie_key);
-#define amu_freq_invariant() static_branch_unlikely(&amu_fie_key)
+static void amu_scale_freq_tick(void)
+{
+	u64 prev_core_cnt, prev_const_cnt;
+	u64 core_cnt, const_cnt, scale;
+	int cpu = smp_processor_id();
+
+	if (!cpumask_test_cpu(cpu, amu_fie_cpus))
+		return;
+
+	const_cnt = read_sysreg_s(SYS_AMEVCNTR0_CONST_EL0);
+	core_cnt = read_sysreg_s(SYS_AMEVCNTR0_CORE_EL0);
+	prev_const_cnt = this_cpu_read(arch_const_cycles_prev);
+	prev_core_cnt = this_cpu_read(arch_core_cycles_prev);
+
+	if (unlikely(core_cnt <= prev_core_cnt ||
+		     const_cnt <= prev_const_cnt))
+		goto store_and_exit;
+
+	/*
+	 *	    /\core    arch_max_freq_scale
+	 * scale =  ------- * --------------------
+	 *	    /\const   SCHED_CAPACITY_SCALE
+	 *
+	 * See validate_cpu_freq_invariance_counters() for details on
+	 * arch_max_freq_scale and the use of SCHED_CAPACITY_SHIFT.
+	 */
+	scale = core_cnt - prev_core_cnt;
+	scale *= this_cpu_read(arch_max_freq_scale);
+	scale = div64_u64(scale >> SCHED_CAPACITY_SHIFT,
+			  const_cnt - prev_const_cnt);
+
+	scale = min_t(unsigned long, scale, SCHED_CAPACITY_SCALE);
+	this_cpu_write(freq_scale, (unsigned long)scale);
+
+store_and_exit:
+	this_cpu_write(arch_core_cycles_prev, core_cnt);
+	this_cpu_write(arch_const_cycles_prev, const_cnt);
+}
+
+static struct scale_freq_data amu_sfd = {
+	.source = SCALE_FREQ_SOURCE_ARCH,
+	.set_freq_scale = amu_scale_freq_tick,
+};
 
 static int __init init_amu_fie(void)
 {
@@ -205,15 +246,8 @@ static int __init init_amu_fie(void)
 	if (!cpumask_empty(amu_fie_cpus)) {
 		pr_info("CPUs[%*pbl]: counters will be used for FIE.",
 			cpumask_pr_args(amu_fie_cpus));
-		static_branch_enable(&amu_fie_key);
+		topology_set_scale_freq_source(&amu_sfd, amu_fie_cpus);
 	}
-
-	/*
-	 * If the system is not fully invariant after AMU init, disable
-	 * partial use of counters for frequency invariance.
-	 */
-	if (!topology_scale_freq_invariant())
-		static_branch_disable(&amu_fie_key);
 
 free_valid_mask:
 	free_cpumask_var(valid_cpus);
@@ -221,52 +255,4 @@ free_valid_mask:
 	return ret;
 }
 late_initcall_sync(init_amu_fie);
-
-bool arch_freq_counters_available(const struct cpumask *cpus)
-{
-	return amu_freq_invariant() &&
-	       cpumask_subset(cpus, amu_fie_cpus);
-}
-
-void topology_scale_freq_tick(void)
-{
-	u64 prev_core_cnt, prev_const_cnt;
-	u64 core_cnt, const_cnt, scale;
-	int cpu = smp_processor_id();
-
-	if (!amu_freq_invariant())
-		return;
-
-	if (!cpumask_test_cpu(cpu, amu_fie_cpus))
-		return;
-
-	const_cnt = read_sysreg_s(SYS_AMEVCNTR0_CONST_EL0);
-	core_cnt = read_sysreg_s(SYS_AMEVCNTR0_CORE_EL0);
-	prev_const_cnt = this_cpu_read(arch_const_cycles_prev);
-	prev_core_cnt = this_cpu_read(arch_core_cycles_prev);
-
-	if (unlikely(core_cnt <= prev_core_cnt ||
-		     const_cnt <= prev_const_cnt))
-		goto store_and_exit;
-
-	/*
-	 *	    /\core    arch_max_freq_scale
-	 * scale =  ------- * --------------------
-	 *	    /\const   SCHED_CAPACITY_SCALE
-	 *
-	 * See validate_cpu_freq_invariance_counters() for details on
-	 * arch_max_freq_scale and the use of SCHED_CAPACITY_SHIFT.
-	 */
-	scale = core_cnt - prev_core_cnt;
-	scale *= this_cpu_read(arch_max_freq_scale);
-	scale = div64_u64(scale >> SCHED_CAPACITY_SHIFT,
-			  const_cnt - prev_const_cnt);
-
-	scale = min_t(unsigned long, scale, SCHED_CAPACITY_SCALE);
-	this_cpu_write(freq_scale, (unsigned long)scale);
-
-store_and_exit:
-	this_cpu_write(arch_core_cycles_prev, core_cnt);
-	this_cpu_write(arch_const_cycles_prev, const_cnt);
-}
 #endif /* CONFIG_ARM64_AMU_EXTN */
