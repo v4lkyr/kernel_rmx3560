@@ -530,7 +530,7 @@ static int log_store(u32 caller_id, int facility, int level,
 	if (ts_nsec > 0)
 		r.info->ts_nsec = ts_nsec;
 	else
-		r.info->ts_nsec = local_clock();
+		r.info->ts_nsec = local_clock() + get_total_sleep_time_nsec();
 	r.info->caller_id = caller_id;
 	if (dev_info)
 		memcpy(&r.info->dev_info, dev_info, sizeof(r.info->dev_info));
