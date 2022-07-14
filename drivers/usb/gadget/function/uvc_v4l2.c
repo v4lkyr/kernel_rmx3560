@@ -228,10 +228,6 @@ static int
 uvc_v4l2_subscribe_event(struct v4l2_fh *fh,
 			 const struct v4l2_event_subscription *sub)
 {
-	struct uvc_device *uvc = video_get_drvdata(fh->vdev);
-	struct uvc_file_handle *handle = to_uvc_file_handle(fh);
-	int ret;
-
 	if (sub->type < UVC_EVENT_FIRST || sub->type > UVC_EVENT_LAST)
 		return -EINVAL;
 
@@ -264,20 +260,7 @@ static int
 uvc_v4l2_unsubscribe_event(struct v4l2_fh *fh,
 			   const struct v4l2_event_subscription *sub)
 {
-	struct uvc_device *uvc = video_get_drvdata(fh->vdev);
-	struct uvc_file_handle *handle = to_uvc_file_handle(fh);
-	int ret;
-
-	ret = v4l2_event_unsubscribe(fh, sub);
-	if (ret < 0)
-		return ret;
-
-	if (sub->type == UVC_EVENT_SETUP && handle->is_uvc_app_handle) {
-		uvc_v4l2_disable(uvc);
-		handle->is_uvc_app_handle = false;
-	}
-
-	return 0;
+	return v4l2_event_unsubscribe(fh, sub);
 }
 
 static long
@@ -332,6 +315,7 @@ uvc_v4l2_open(struct file *file)
 	handle->device = &uvc->video;
 	file->private_data = &handle->vfh;
 
+	uvc_function_connect(uvc);
 	return 0;
 }
 
@@ -343,9 +327,11 @@ uvc_v4l2_release(struct file *file)
 	struct uvc_file_handle *handle = to_uvc_file_handle(file->private_data);
 	struct uvc_video *video = handle->device;
 
+	uvc_function_disconnect(uvc);
+
 	mutex_lock(&video->mutex);
-	if (handle->is_uvc_app_handle)
-		uvc_v4l2_disable(uvc);
+	uvcg_video_enable(video, 0);
+	uvcg_free_buffers(&video->queue);
 	mutex_unlock(&video->mutex);
 
 	file->private_data = NULL;
