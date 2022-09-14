@@ -28,6 +28,8 @@ else ifeq ($(MTK_PLATFORM),mt6893)
 subdir-ccflags-y += -DCONFIG_GPU_MT6893
 else ifeq ($(MTK_PLATFORM),mt6853)
 subdir-ccflags-y += -DCONFIG_GPU_MT6853
+else ifeq ($(MTK_PLATFORM),mt6895)
+subdir-ccflags-y += -DCONFIG_GPU_MT6895
 endif
 endif
 
@@ -43,7 +45,7 @@ ifneq ($(CONFIG_MTK_GPU_VERSION),"")
 ifeq ($(CONFIG_MTK_GPU_R5P0),y)
     obj-y += $(subst ",,$(CONFIG_MTK_PLATFORM))/
 else ifneq ($(word 1,$(MTK_GPU_VERSION)),)
-    obj-y += gpu_$(word 1,$(MTK_GPU_VERSION))/
+    obj-y += ../../../vendor/mediatek/kernel_modules/gpu/gpu_mali/
 else
     obj-y += $(subst ",,$(CONFIG_MTK_PLATFORM))/
 endif

@@ -118,7 +118,7 @@ int  __attribute__((weak)) oplus_chg_get_max_cur(int vbus_mv)
 	return 0;
 }
 
-void __attribute__((weak)) oplus_set_typec_cc_open()
+void __attribute__((weak)) oplus_set_typec_cc_open(void)
 {
 
 }

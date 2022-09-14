@@ -4,7 +4,7 @@
 #
 
 config FONT_SUPPORT
-	tristate
+	tristate "Font Support"
 
 if FONT_SUPPORT
 

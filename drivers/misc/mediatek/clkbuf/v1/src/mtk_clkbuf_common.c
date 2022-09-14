@@ -7,7 +7,7 @@
 
 #include "mtk_clkbuf_common.h"
 
-static const char *chip_name[CLKBUF_CHIP_ID_MAX] __initconst = {
+static const char *chip_name[CLKBUF_CHIP_ID_MAX] = {
 	[MT6983] = "mediatek,mt6983",
 	[MT6879] = "mediatek,mt6879",
 	[MT6893] = "mediatek,mt6893",
@@ -16,7 +16,7 @@ static const char *chip_name[CLKBUF_CHIP_ID_MAX] __initconst = {
 	[MT6855] = "mediatek,mt6855",
 };
 
-static const char *pmic_name[CLKBUF_PMIC_ID_MAX] __initconst = {
+static const char *pmic_name[CLKBUF_PMIC_ID_MAX] = {
 	[MT6685] = "mediatek,mt6685",
 	[MT6359P] = "mediatek,mt6359p",
 };

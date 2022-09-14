@@ -720,7 +720,6 @@ static int mt6373_of_parse_cb(struct device_node *np,
 	return 0;
 }
 
-#ifdef OPLUS_FEATURE_CHG_BASIC
 /*
 	0x989: Push-pull output1 for MOSFET driver
 	bit[2]: RG_MOSCON1_DRVSEL
@@ -768,7 +767,6 @@ int oplus_chg_set_dischg_enable(bool en)
 	return 0;
 }
 EXPORT_SYMBOL(oplus_chg_set_dischg_enable);
-#endif
 
 static bool mt6373_bypass_register(struct mt6373_regulator_info *info)
 {

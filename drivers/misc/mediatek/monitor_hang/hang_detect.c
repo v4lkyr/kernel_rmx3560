@@ -1132,7 +1132,7 @@ static int show_white_list_bt(struct task_struct *p)
 	return -1;
 }
 
-static int run_callback()
+static int run_callback(void)
 {
 	struct hang_callback_list *pList = NULL;
 

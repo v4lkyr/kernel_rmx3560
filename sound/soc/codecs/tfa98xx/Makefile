@@ -23,7 +23,6 @@ subdir-ccflags-y += -I$(srctree)/drivers/misc/mediatek/include
 # debugging support (also enables trace_printk)
 ccflags-y += -I$(srctree)/sound/soc/codecs/tfa98xx/inc
 ccflags-y += -DDEBUG -DTFA_NON_DSP_SOLUTION
-ccflags-y += -Werror
 ccflags-y += $(call cc-option,-Wno-date-time,)
 
 snd-soc-tfa98xx-objs += src/tfa98xx.o
