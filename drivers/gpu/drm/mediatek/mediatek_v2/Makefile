@@ -1,4 +1,3 @@
-subdir-ccflags-y += -Werror
 ccflags-y += -I$(srctree)/drivers/gpu/drm/oplus
 ccflags-y += -I$(srctree)/drivers/gpu/drm/mediatek/mediatek_v2
 

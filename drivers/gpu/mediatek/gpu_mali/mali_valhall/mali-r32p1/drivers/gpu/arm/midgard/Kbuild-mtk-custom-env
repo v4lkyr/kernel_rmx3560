@@ -19,7 +19,7 @@ CONFIG_MALI_MTK_MEM_TRACK := y
 CONFIG_MALI_MTK_DEVFREQ := y
 CONFIG_MALI_MTK_DEVFREQ_THERMAL := y
 
-ifneq (, $(findstring $(MTK_PLATFORM), "mt6885" "mt6873" "mt6853" "mt6877"))
+ifneq (, $(findstring $(MTK_PLATFORM), "mt6885" "mt6873" "mt6853" "mt6877" "mt6895"))
 CONFIG_MALI_MTK_GPU_BM_2 := y
 $(info *GPU defined GPU BM QoS 2.0)
 endif

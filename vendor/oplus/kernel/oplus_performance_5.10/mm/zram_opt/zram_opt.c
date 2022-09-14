@@ -229,7 +229,7 @@ static int __init create_swappiness_para_proc(void)
 	return -ENOMEM;
 }
 
-static void __exit destroy_swappiness_para_proc(void)
+static void destroy_swappiness_para_proc(void)
 {
 	proc_remove(para_entry);
 	para_entry = NULL;

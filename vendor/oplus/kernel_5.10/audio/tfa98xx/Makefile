@@ -24,7 +24,6 @@ subdir-ccflags-y += -I$(srctree)/drivers/base
 # debugging support (also enables trace_printk)
 ccflags-y += -I$(srctree)/sound/soc/codecs/tfa98xx/inc
 ccflags-y += -DDEBUG -DTFA_NON_DSP_SOLUTION
-ccflags-y += -Werror
 ccflags-y += -DOPLUS_ARCH_EXTENDS -DOPLUS_ARCH_EXTENDS
 ccflags-y += $(call cc-option,-Wno-date-time,)
 

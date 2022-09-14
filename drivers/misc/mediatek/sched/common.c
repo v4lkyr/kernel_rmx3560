@@ -73,7 +73,6 @@ int dequeue_idle_cpu(int cpu)
  * will return the correct effective uclamp value of the task even if the
  * static key is disabled.
  */
-__always_inline
 unsigned long mtk_uclamp_rq_util_with(struct rq *rq, unsigned long util,
 				  struct task_struct *p)
 {

@@ -11,7 +11,6 @@
 # GNU General Public License for more details.
 #
 
-subdir-ccflags-y += -Werror
 ccflags-y += -I$(srctree)/drivers/misc/mediatek/m4u/2.4
 ccflags-y += -I$(srctree)/drivers/misc/mediatek/m4u/$(MTK_PLATFORM)
 ccflags-y += -I$(srctree)/drivers/media/platform/mtk-isp/imgsys/

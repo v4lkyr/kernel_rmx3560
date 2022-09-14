@@ -910,7 +910,8 @@ int oplus_mtk_dc_backlight_enter(struct drm_crtc *crtc)
 
 	return 0;
 }
-mtk_drm_setbacklight(struct drm_crtc *crtc, unsigned int level, bool atomic)
+
+int mtk_drm_setbacklight(struct drm_crtc *crtc, unsigned int level, bool atomic)
 {
 	struct mtk_drm_crtc *mtk_crtc = to_mtk_crtc(crtc);
 	struct cmdq_pkt *cmdq_handle;
@@ -7165,6 +7166,7 @@ static void msync_add_frame_time(struct mtk_drm_crtc *mtk_crtc,
 	unsigned int mode_idx;
 	unsigned int last_msync_idx;
 	unsigned int fps;
+	int msync_min_fps = MSYNC_MIN_FPS;
 	u64 time_diff;
 
 	if (msync_dy->dy_en == 0)
@@ -7209,8 +7211,8 @@ static void msync_add_frame_time(struct mtk_drm_crtc *mtk_crtc,
 		fps = drm_mode_vrefresh(mode);
 		time_diff = msync_dy->record[msync_dy->record_index].time -
 			msync_dy->record[last_msync_idx].time;
-		DDPDBG("[Msync] min fps:%f, fps:%d, time_diff:%d\n", MSYNC_MIN_FPS, fps, time_diff);
-		if (1000 * 1000 * 1000 / MSYNC_MIN_FPS < time_diff) {
+		DDPDBG("[Msync] min fps:%f, fps:%d, time_diff:%d\n", msync_min_fps, fps, time_diff);
+		if (1000 * 1000 * 1000 / msync_min_fps < time_diff) {
 			msync_dy->record[msync_dy->record_index].low_frame = true;
 			DDPDBG("[Msync] low_frame = true\n");
 		} else {

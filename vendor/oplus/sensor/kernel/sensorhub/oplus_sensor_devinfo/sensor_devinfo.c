@@ -35,13 +35,15 @@
 int register_lcdinfo_notifier(struct notifier_block *nb);
 int unregister_lcdinfo_notifier(struct notifier_block *nb);
 
-__attribute__((weak)) int register_lcdinfo_notifier() {
+int register_lcdinfo_notifier(struct notifier_block *nb) {
 	return -1;
 }
+__attribute__((weak));
 
-__attribute__((weak)) int unregister_lcdinfo_notifier() {
+int unregister_lcdinfo_notifier(struct notifier_block *nb) {
 	return -1;
 }
+__attribute__((weak));
 
 struct proc_node {
 	char *node_name;
@@ -733,7 +735,7 @@ static struct proc_node sensor_feature_file[] = {
 	{"gold_rear_cct_6k", GOLD_REAR_CCT_6K},
 };
 
-static int oplus_sensor_feature_init()
+static int oplus_sensor_feature_init(void)
 {
 	struct proc_dir_entry *p_entry;
 	static struct proc_dir_entry *oplus_sensor = NULL;
