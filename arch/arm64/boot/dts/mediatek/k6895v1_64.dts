@@ -684,9 +684,9 @@ androidboot.hardware=mt6895";
 	racing-enable;
 };
 
-#include "mediatek/cust_mt6895_touch_1080x2400.dtsi"
+#include "cust_mt6895_touch_1080x2400.dtsi"
 //#include "mediatek/cust_mt6895_camera_v4l2.dtsi"
-#include <k6895v1_64/cust.dtsi>
-#include "mediatek/nfc/mt6895_lisa_21641_sn100.dtsi"
-#include "mediatek/cust_mt6895_lisa_camera_v4l2.dtsi"
+//#include <k6895v1_64/cust.dtsi>
+#include "nfc/mt6895_lisa_21641_sn100.dtsi"
+#include "cust_mt6895_lisa_camera_v4l2.dtsi"
 /*End of this file, DO NOT ADD ANYTHING HERE*/

@@ -9,16 +9,16 @@
 #include <dt-bindings/interrupt-controller/irq.h>
 #include <dt-bindings/phy/phy.h>
 #include <dt-bindings/pinctrl/mt6895-pinfunc.h>
-#include "mediatek/oplus_charge_21641.dtsi"
-#include "mediatek/oplus_tp_21641.dtsi"
+#include "oplus_charge_21641.dtsi"
+#include "oplus_tp_21641.dtsi"
 #include <dt-bindings/iio/mt635x-auxadc.h>
 
 //#ifdef OPLUS_FEATURE_NFC_BRINGUP
-#include "mediatek/nfc/mt6895_lisa_21641_sn100.dtsi"
+#include "nfc/mt6895_lisa_21641_sn100.dtsi"
 //#endif OPLUS_FEATURE_NFC_BRINGUP
 
 //#ifdef OPLUS_FEATURE_SENSOR
-#include "mediatek/oplus_sensor_21641.dtsi"
+#include "oplus_sensor_21641.dtsi"
 //#endif
 
 &chosen {
@@ -1077,12 +1077,12 @@ jiiov_fp_irq_active: jiiov_fp_irq_active {
 	};
 };
 
-#include "mediatek/iris/pxlw-iris-boe-nt37701a-cfg.dtsi"
+#include "iris/pxlw-iris-boe-nt37701a-cfg.dtsi"
 /* #endif */
 
 //#include "mediatek/cust_mt6895_camera_v4l2.dtsi"
-#include <k6895v1_64/cust.dtsi>
-#include "mediatek/cust_mt6895_lisa_camera_v4l2.dtsi"
+//#include <k6895v1_64/cust.dtsi>
+#include "cust_mt6895_lisa_camera_v4l2.dtsi"
 
-#include "mediatek/cust_mt6895_lisa_thermal_21641.dtsi"
+#include "cust_mt6895_lisa_thermal_21641.dtsi"
 /*End of this file, DO NOT ADD ANYTHING HERE*/
