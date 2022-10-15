@@ -216,6 +216,8 @@ static void mtk_uart_apdma_start_rx(struct mtk_chan *c)
 
 static void mtk_uart_apdma_tx_handler(struct mtk_chan *c)
 {
+	struct mtk_uart_apdma_desc *d = c->desc;
+
 	mtk_uart_apdma_write(c, VFF_INT_FLAG, VFF_TX_INT_CLR_B);
 	if (unlikely(d == NULL)) {
 		dev_info(c->vc.chan.device->dev, "TX[%d] FIX ME!", c->irq);
@@ -278,6 +280,7 @@ static irqreturn_t mtk_uart_apdma_irq_handler(int irq, void *dev_id)
 		mtk_uart_apdma_rx_handler(c);
 	else if (c->dir == DMA_MEM_TO_DEV)
 		mtk_uart_apdma_tx_handler(c);
+	mtk_uart_apdma_chan_complete_handler(c);
 	//spin_unlock_irqrestore(&c->vc.lock, flags);
 	spin_unlock(&c->vc.lock);
 	return IRQ_HANDLED;

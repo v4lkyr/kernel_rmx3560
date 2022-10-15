@@ -8,6 +8,8 @@
 #include <linux/time_namespace.h>
 #include <linux/kernel_stat.h>
 
+extern u64 get_idle_time(struct kernel_cpustat *kcs, int cpu);
+
 static int uptime_proc_show(struct seq_file *m, void *v)
 {
 	struct timespec64 uptime;
