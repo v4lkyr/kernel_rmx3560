@@ -1446,6 +1446,7 @@ static int mtk_btcvsd_snd_probe(struct platform_device *pdev)
 		dev_warn(dev, "%s(), get offset fail, ret %d\n", __func__, ret);
 		goto unmap_bank2_err;
 	}
+
 	/* get disable_write_silence */
 	ret = of_property_read_u32(dev->of_node, "disable_write_silence",
 				     &disable_write_silence);
