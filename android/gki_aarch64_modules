@@ -1,0 +1,5 @@
+mm/oplus_perf_mm/gloom/oplus_bsp_gloom.ko
+drivers/base/power/power_diag/power_diag.ko
+drivers/misc/mediatek/boot_common/mtk_boot_common.ko
+drivers/misc/aw8697_haptic/aw8697.ko
+sound/soc/codecs/audio/driver/snd-audio-extend.ko
