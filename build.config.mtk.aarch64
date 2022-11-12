@@ -2,6 +2,8 @@
 
 KERNEL_DIR=kernel-5.10
 
+DEFCONFIG=lisa_gki_defconfig
+
 # for check scripts
 # CC=clang
 # LD=ld.lld
