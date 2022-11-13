@@ -2,7 +2,18 @@
 
 KERNEL_DIR=kernel-5.10
 
-DEFCONFIG=lisa_gki_defconfig
+DEFCONFIG=deneme_defconfig
+
+PRE_DEFCONFIG_CMDS="
+KCONFIG_CONFIG=${ROOT_DIR}/kernel-5.10/arch/arm64/configs/${DEFCONFIG}
+${ROOT_DIR}/kernel-5.10/scripts/kconfig/merge_config.sh -m -r
+${ROOT_DIR}/kernel-5.10/arch/arm64/configs/gki_defconfig
+${ROOT_DIR}/kernel-5.10/arch/arm64/configs/mgk_64_k510_defconfig
+${ROOT_DIR}/kernel-5.10/kernel/configs/oplus6895.config
+"
+POST_DEFCONFIG_CMDS="
+rm ${ROOT_DIR}/kernel-5.10/arch/arm64/configs/${DEFCONFIG}
+"
 
 # for check scripts
 # CC=clang
