@@ -507,8 +507,6 @@ int mt6660_i2c_probe(struct i2c_client *client,
 		dev_err(chip->dev, "read chip revision fail\n");
 		goto probe_fail;
 	}
-	pm_runtime_set_active(chip->dev);
-	pm_runtime_enable(chip->dev);
 
 	dev_set_name(chip->dev, "MT6660_MT_%d", chip->dev_cnt);
 	ret = devm_snd_soc_register_component(chip->dev,
@@ -519,6 +517,7 @@ int mt6660_i2c_probe(struct i2c_client *client,
 		mtk_spk_set_type(MTK_SPK_MEDIATEK_MT6660);
 	}
 	return ret;
+
 probe_fail:
 	_mt6660_chip_power_on(chip, 0);
 	mutex_destroy(&chip->io_lock);
