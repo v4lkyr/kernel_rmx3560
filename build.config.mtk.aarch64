@@ -2,6 +2,8 @@
 
 KERNEL_DIR=kernel-5.10
 
+DEFCONFIG=lisa_defconfig
+
 # for check scripts
 # CC=clang
 # LD=ld.lld
@@ -18,12 +20,14 @@ mediatek/k6895v1_64.dtb
 mediatek/oplus6895_21641.dtb
 mediatek/mt6895.dtb
 dtbs
+Image.gz
 "
 
 FILES="${FILES}
 arch/arm64/boot/dts/mediatek/oplus6895_21641.dtb
 arch/arm64/boot/dts/mediatek/k6895v1_64.dtb
 arch/arm64/boot/dts/mediatek/mt6895.dtb
+arch/arm64/boot/Image.gz
 "
 
 ABI_OUT_TAG="mtk"
