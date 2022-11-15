@@ -125,6 +125,7 @@ DEFINE_STATIC_KEY_TRUE(slub_debug_enabled);
 DEFINE_STATIC_KEY_FALSE(slub_debug_enabled);
 #endif
 #endif
+EXPORT_SYMBOL(slub_debug_enabled);
 
 static inline bool kmem_cache_debug(struct kmem_cache *s)
 {

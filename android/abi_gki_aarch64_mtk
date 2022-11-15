@@ -1935,6 +1935,7 @@
   skb_queue_tail
   skb_realloc_headroom
   skb_trim
+  slub_debug_enabled
   smp_call_function
   smp_call_function_single
   snd_card_add_dev_attr
