@@ -84,7 +84,7 @@ config SND_SOC_MT6789
 
 config SND_SOC_MT6789_MT6366
 	tristate "ASoc Audio driver for MT6789 with MT6366 codec"
-	depends on SND_SOC_MT6789
+	depends on SND_SOC_MT6789 && MFD_MT6366
 	select SND_SOC_MT6366
 	help
 	  This adds ASoC driver for Mediatek MT6789 boards

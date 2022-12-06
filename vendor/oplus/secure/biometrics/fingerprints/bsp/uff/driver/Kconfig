@@ -4,10 +4,6 @@ menuconfig UFF_FINGERPRINT
        help
        Say Y here to enable UFF fingerprint support
 
-config OPLUS_FINGERPRINT_GKI_ENABLE
-       default n
-       bool "Fingerprint enable gki"
-
 ### platform config
 config UFF_FINGERPRINT_QCOM
        default n
