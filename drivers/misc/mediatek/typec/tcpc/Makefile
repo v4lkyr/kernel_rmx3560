@@ -1,4 +1,3 @@
-subdir-ccflags-y += -Wall -Werror
 subdir-ccflags-y += -I$(srctree)/drivers/power/supply/
 subdir-ccflags-y += -I$(srctree)/drivers/misc/mediatek/rt-regmap/
 subdir-ccflags-y += -I$(srctree)/drivers/mfd/

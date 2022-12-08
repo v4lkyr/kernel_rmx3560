@@ -977,7 +977,8 @@ int oplus_mtk_dc_backlight_enter(struct drm_crtc *crtc)
 
 	return 0;
 }
-mtk_drm_setbacklight(struct drm_crtc *crtc, unsigned int level, bool atomic)
+
+int mtk_drm_setbacklight(struct drm_crtc *crtc, unsigned int level, bool atomic)
 {
 	struct mtk_drm_crtc *mtk_crtc = to_mtk_crtc(crtc);
 	struct cmdq_pkt *cmdq_handle;
