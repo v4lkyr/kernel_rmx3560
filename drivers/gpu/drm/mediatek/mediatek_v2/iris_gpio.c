@@ -178,7 +178,7 @@ int iris_check_abyp_ready(void)
 	return iris_abyp_ready_gpio;
 }
 #else
-int iris_check_abyp_ready()
+int iris_check_abyp_ready(void)
 {
 	struct iris_cfg *pcfg = iris_get_cfg();
 	struct mipi_dsi_device *dsi = pcfg->dsi_dev;
