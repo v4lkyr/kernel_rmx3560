@@ -1,25 +1,65 @@
+KERNEL_DIR=kernel-5.10
+
 ARCH=arm64
 CROSS_COMPILE=aarch64-linux-gnu-
 CROSS_COMPILE_COMPAT=arm-linux-gnueabi-
 LLVM=1
 LLVM_IAS=1
-# DEFCONFIG=defconfig
-KERNEL_DIR=kernel-5.10
-# CLANG_PREBUILT_BIN=../prebuilts/clang/host/linux-x86/clang-r416183b/bin
-# BUILDTOOLS_PREBUILT_BIN=build/build-tools/path/linux-x86
+LTO=thin
+
+DEFCONFIG=lisa_defconfig
+
+# PRE_DEFCONFIG_CMDS="
+# KCONFIG_CONFIG=${ROOT_DIR}/${KERNEL_DIR}/arch/arm64/configs/${DEFCONFIG}
+# ${ROOT_DIR}/${KERNEL_DIR}/scripts/kconfig/merge_config.sh -m -r
+# ${ROOT_DIR}/${KERNEL_DIR}/arch/arm64/configs/gki_defconfig
+# ${ROOT_DIR}/${KERNEL_DIR}/arch/arm64/configs/mgk_64_k510_defconfig
+# ${ROOT_DIR}/${KERNEL_DIR}/kernel/configs/oplus6895.config
+# "
+# POST_DEFCONFIG_CMDS="rm ${ROOT_DIR}/${KERNEL_DIR}/arch/arm64/configs/${DEFCONFIG}"
+
+CLANG_PREBUILT_BIN=prebuilts-master/clang/host/linux-x86/clang-r416183b/bin
+BUILDTOOLS_PREBUILT_BIN=build/build-tools/path/linux-x86
+
 # for check scripts
-# CC=clang
-# LD=ld.lld
-# AR=llvm-ar
-# NM=llvm-nm
-# OBJCOPY=llvm-objcopy
-# OBJDUMP=llvm-objdump
-# READELF=llvm-readelf
-# OBJSIZE=llvm-size
-# STRIP=llvm-strip
-FILES="vmlinux"
+CC=prebuilts-master/clang/host/linux-x86/clang-r416183b/bin/clang
+LD=prebuilts-master/clang/host/linux-x86/clang-r416183b/bin/ld.lld
+AR=prebuilts-master/clang/host/linux-x86/clang-r416183b/bin/llvm-ar
+NM=prebuilts-master/clang/host/linux-x86/clang-r416183b/bin/llvm-nm
+OBJCOPY=prebuilts-master/clang/host/linux-x86/clang-r416183b/bin/llvm-objcopy
+OBJDUMP=prebuilts-master/clang/host/linux-x86/clang-r416183b/bin/llvm-objdump
+READELF=prebuilts-master/clang/host/linux-x86/clang-r416183b/bin/llvm-readelf
+OBJSIZE=prebuilts-master/clang/host/linux-x86/clang-r416183b/bin/llvm-size
+STRIP=prebuilts-master/clang/host/linux-x86/clang-r416183b/bin/llvm-strip
+
+MAKE_GOALS="
+mediatek/mt6895.dtb
+modules
+dtbs
+"
+
+FILES="
+arch/arm64/boot/dts/mediatek/mt6895.dtb
+modules.builtin
+modules.builtin.modinfo
+"
+
 ABI_OUT_TAG="mtk"
 KMI_SYMBOL_LIST=android/abi_gki_aarch64_mtk
 GKI_MODULES_LIST=android/gki_aarch64_modules
 ABI_DEFINITION=android/abi_gki_aarch64.xml
 SKIP_CP_KERNEL_HDR=1
+
+BUILD_BOOT_IMG=1
+BUILD_INITRAMFS=1
+GKI_RAMDISK_PREBUILT_BINARY=ramdiskboot.img.lz4
+VENDOR_RAMDISK_BINARY=ramdiskvendorboot.img.lz4
+KERNEL_BINARY=Image.gz
+BOOT_IMAGE_HEADER_VERSION=4
+KERNEL_VENDOR_CMDLINE=bootopt=64S3,32N2,64N2
+TAGS_OFFSET=0x07c88000
+RAMDISK_OFFSET=0x26f08000
+BASE_ADDRESS=0x3fff8000
+PAGE_SIZE=4096
+
+GKI_BUILD_CONFIG=kernel-5.10/build.config.gki.aarch64
