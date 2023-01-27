@@ -1,0 +1,4 @@
+mm/oplus_mm/memload_opt/mapped_protect/oplus_bsp_mapped_protect.ko
+drivers/misc/mediatek/boot_common/mtk_boot_common.ko
+drivers/power/supply/mm8013.ko
+sound/soc/codecs/audio/driver/snd-audio-extend.ko
