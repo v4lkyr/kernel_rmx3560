@@ -12,7 +12,6 @@ oplus_chg_v2-y += oplus_configfs.o
 oplus_chg_v2-$(CONFIG_OPLUS_CHG_DYNAMIC_CONFIG) += oplus_chg_cfg.o
 
 ifeq ($(CONFIG_OPLUS_CHARGER_MTK),y)
-subdir-ccflags-y += -Werror
 subdir-ccflags-y += -Wno-unused-variable
 
 subdir-ccflags-y += -I$(srctree)/drivers/misc/mediatek/typec/tcpc/inc
