@@ -33,15 +33,22 @@ OBJSIZE=prebuilts-master/clang/host/linux-x86/clang-r416183b/bin/llvm-size
 STRIP=prebuilts-master/clang/host/linux-x86/clang-r416183b/bin/llvm-strip
 
 MAKE_GOALS="
+Image
+Image.gz
 mediatek/mt6895.dtb
 modules
 dtbs
 "
 
 FILES="
+arch/arm64/boot/Image
+arch/arm64/boot/Image.gz
 arch/arm64/boot/dts/mediatek/mt6895.dtb
+vmlinux
+vmlinux.symvers
 modules.builtin
 modules.builtin.modinfo
+System.map
 "
 
 ABI_OUT_TAG="mtk"
@@ -52,7 +59,6 @@ SKIP_CP_KERNEL_HDR=1
 
 BUILD_BOOT_IMG=1
 BUILD_INITRAMFS=1
-GKI_RAMDISK_PREBUILT_BINARY=ramdiskboot.img.lz4
 VENDOR_RAMDISK_BINARY=ramdiskvendorboot.img.lz4
 KERNEL_BINARY=Image.gz
 BOOT_IMAGE_HEADER_VERSION=4
@@ -61,5 +67,3 @@ TAGS_OFFSET=0x07c88000
 RAMDISK_OFFSET=0x26f08000
 BASE_ADDRESS=0x3fff8000
 PAGE_SIZE=4096
-
-GKI_BUILD_CONFIG=kernel-5.10/build.config.gki.aarch64
