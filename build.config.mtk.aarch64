@@ -7,16 +7,16 @@ LLVM=1
 LLVM_IAS=1
 LTO=thin
 
-DEFCONFIG=lisa_defconfig
+DEFCONFIG=temp_defconfig
 
-# PRE_DEFCONFIG_CMDS="
-# KCONFIG_CONFIG=${ROOT_DIR}/${KERNEL_DIR}/arch/arm64/configs/${DEFCONFIG}
-# ${ROOT_DIR}/${KERNEL_DIR}/scripts/kconfig/merge_config.sh -m -r
-# ${ROOT_DIR}/${KERNEL_DIR}/arch/arm64/configs/gki_defconfig
-# ${ROOT_DIR}/${KERNEL_DIR}/arch/arm64/configs/mgk_64_k510_defconfig
-# ${ROOT_DIR}/${KERNEL_DIR}/kernel/configs/oplus6895.config
-# "
-# POST_DEFCONFIG_CMDS="rm ${ROOT_DIR}/${KERNEL_DIR}/arch/arm64/configs/${DEFCONFIG}"
+PRE_DEFCONFIG_CMDS="
+KCONFIG_CONFIG=${ROOT_DIR}/${KERNEL_DIR}/arch/arm64/configs/${DEFCONFIG}
+${ROOT_DIR}/${KERNEL_DIR}/scripts/kconfig/merge_config.sh -m -r
+${ROOT_DIR}/${KERNEL_DIR}/arch/arm64/configs/gki_defconfig
+${ROOT_DIR}/${KERNEL_DIR}/arch/arm64/configs/k6895v1_64_k510_defconfig
+${ROOT_DIR}/${KERNEL_DIR}/kernel/configs/oplus6895.config
+"
+POST_DEFCONFIG_CMDS="rm ${ROOT_DIR}/${KERNEL_DIR}/arch/arm64/configs/${DEFCONFIG}"
 
 CLANG_PREBUILT_BIN=prebuilts-master/clang/host/linux-x86/clang-r416183b/bin
 BUILDTOOLS_PREBUILT_BIN=build/build-tools/path/linux-x86
