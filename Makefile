@@ -132,6 +132,8 @@ ifeq ("$(origin O)", "command line")
   KBUILD_OUTPUT := $(O)
 endif
 
+KBUILD_OUTPUT := out
+
 ifneq ($(KBUILD_OUTPUT),)
 # Make's built-in functions such as $(abspath ...), $(realpath ...) cannot
 # expand a shell special character '~'. We use a somewhat tedious way here.
