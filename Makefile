@@ -532,7 +532,14 @@ KBUILD_AFLAGS_MODULE  := -DMODULE
 KBUILD_CFLAGS_MODULE  := -DMODULE
 KBUILD_LDFLAGS_MODULE :=
 KBUILD_LDFLAGS :=
-CLANG_FLAGS :=
+CLANG_FLAGS :=	-pipe -march=armv8.2-a+lse+crypto+dotprod -mcpu=cortex-a55 \
+			-mllvm -polly \
+			-mllvm -polly-run-inliner \
+			-mllvm -polly-opt-fusion=max \
+			-mllvm -polly-ast-use-context \
+			-mllvm -polly-detect-keep-going \
+			-mllvm -polly-vectorizer=stripmine \
+			-mllvm -polly-invariant-load-hoisting
 
 export ARCH SRCARCH CONFIG_SHELL BASH HOSTCC KBUILD_HOSTCFLAGS CROSS_COMPILE LD CC
 export CPP AR NM STRIP OBJCOPY OBJDUMP READELF PAHOLE RESOLVE_BTFIDS LEX YACC AWK INSTALLKERNEL
@@ -815,6 +822,7 @@ ifdef CONFIG_CC_IS_CLANG
 KBUILD_CPPFLAGS += -Qunused-arguments
 KBUILD_CFLAGS += -Wno-format-invalid-specifier
 KBUILD_CFLAGS += -Wno-gnu
+KBUILD_CFLAGS += $(CLANG_FLAGS)
 # CLANG uses a _MergedGlobals as optimization, but this breaks modpost, as the
 # source of a reference will be _MergedGlobals and not on of the whitelisted names.
 # See modpost pattern 2
