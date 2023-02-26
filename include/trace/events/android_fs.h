@@ -52,7 +52,7 @@ android_fstrace_get_pathname(char *buf, int buflen, struct inode *inode)
 	d = d_obtain_alias(inode);
 	if (likely(!IS_ERR(d))) {
 		path = dentry_path_raw(d, buf, buflen);
-		if (unlikely(IS_ERR(path))) {
+		if (IS_ERR(path)) {
 			strcpy(buf, "ERROR");
 			path = buf;
 		}
