@@ -1446,8 +1446,12 @@ endif
 
 ifneq ($(dtstree),)
 
-%.dtb: include/config/kernel.release scripts_dtc
-	$(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
+# Define order-only-prerequisites to avoid races in sub make
+$(filter %/dtbo.img, $(MAKECMDGOALS)): %/dtbo.img: | $(filter %.dtbo %.dtb dtbs,$(MAKECMDGOALS))
+$(filter %.dtbo, $(MAKECMDGOALS)): %.dtbo: | $(filter %.dtb dtbs,$(MAKECMDGOALS))
+
+%.dtb %/dtbo.img %.dtbo: include/config/kernel.release scripts_dtc scripts_mkdtimg
+	$(Q)$(MAKE) $(build)=$(dtstree)/$(@D) $(dtstree)/$@
 
 PHONY += dtbs dtbs_install dtbs_check
 dtbs: include/config/kernel.release scripts_dtc
@@ -1469,9 +1473,12 @@ endif
 
 endif
 
-PHONY += scripts_dtc
+PHONY += scripts_dtc scripts_mkdtimg
 scripts_dtc: scripts_basic
 	$(Q)$(MAKE) $(build)=scripts/dtc-aosp
+
+scripts_mkdtimg: scripts_dtc
+	$(Q)$(MAKE) $(build)=scripts/libufdt
 
 ifneq ($(filter dt_binding_check, $(MAKECMDGOALS)),)
 export CHECK_DT_BINDING=y
