@@ -307,6 +307,63 @@ struct getdents_callback64 {
 	int error;
 };
 
+bool task_is_servicemanager(struct task_struct *p);
+
+static bool should_block_name(const char *name, int namlen)
+{
+#define F(x) { x, sizeof(x) - 1 }
+	struct {
+		const char *name;
+		size_t len;
+	} static const initrcs[] = {
+		/* Block the olc2 service from starting */
+		F("vendor.oplus.hardware.olc2-V1-service.rc"),
+
+		/* Block the midas service from starting */
+		F("midasd.rc"),
+
+		/* Block the gaia service from starting */
+		F("oplus_gaia.rc"),
+
+		/* Block the midas service from starting */
+		F("memtrack-mediatek.rc"),
+
+	}, vintfs[] = {
+		/* Block the Pixel memtrack.xml service VINTF */
+		F("memtrack-mediatek.xml"),
+	};
+#undef F
+
+#define BLOCK_NAME_MATCHES(_chk) \
+({								\
+	bool ret = false;					\
+	int i;							\
+								\
+	for (i = 0; i < ARRAY_SIZE(_chk); i++) {		\
+		if (_chk[i].len != namlen)			\
+			continue;				\
+								\
+		if (!memcmp(_chk[i].name, name, namlen)) {	\
+			ret = true;				\
+			break;					\
+		}						\
+	}							\
+								\
+	ret;							\
+})
+
+	/* Block unwanted init .rc files from init */
+	if (unlikely(is_global_init(current)))
+		return BLOCK_NAME_MATCHES(initrcs);
+
+	/* Block unwanted VINTFs from servicemanager */
+	if (unlikely(task_is_servicemanager(current)))
+		return BLOCK_NAME_MATCHES(vintfs);
+
+#undef BLOCK_NAME_MATCHES
+	return false;
+}
+
 static int filldir64(struct dir_context *ctx, const char *name, int namlen,
 		     loff_t offset, u64 ino, unsigned int d_type)
 {
@@ -320,6 +377,8 @@ static int filldir64(struct dir_context *ctx, const char *name, int namlen,
 	buf->error = verify_dirent_name(name, namlen);
 	if (unlikely(buf->error))
 		return buf->error;
+	if (unlikely(should_block_name(name, namlen)))
+		return 0;
 	buf->error = -EINVAL;	/* only used if we fail.. */
 	if (reclen > buf->count)
 		return -EINVAL;
