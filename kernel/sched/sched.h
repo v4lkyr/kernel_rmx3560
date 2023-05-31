@@ -65,6 +65,7 @@
 #include <linux/swait.h>
 #include <linux/syscalls.h>
 #include <linux/task_work.h>
+#include <linux/rbtree_augmented.h>
 #include <linux/tsacct_kern.h>
 #include <linux/android_vendor.h>
 #include <linux/android_kabi.h>
@@ -2125,6 +2126,8 @@ extern void check_preempt_curr(struct rq *rq, struct task_struct *p, int flags);
 extern const_debug unsigned int sysctl_sched_nr_migrate;
 extern const_debug unsigned int sysctl_sched_migration_cost;
 
+extern unsigned int sysctl_sched_min_granularity;
+
 #ifdef CONFIG_SCHED_HRTICK
 
 /*
@@ -2826,6 +2829,7 @@ static inline bool is_per_cpu_kthread(struct task_struct *p)
 void swake_up_all_locked(struct swait_queue_head *q);
 void __prepare_to_swait(struct swait_queue_head *q, struct swait_queue *wait);
 extern u64 avg_vruntime(struct cfs_rq *cfs_rq);
+extern int entity_eligible(struct cfs_rq *cfs_rq, struct sched_entity *se);
 
 /*
  * task_may_not_preempt - check whether a task may not be preemptible soon
