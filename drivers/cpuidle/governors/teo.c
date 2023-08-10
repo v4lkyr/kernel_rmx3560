@@ -98,6 +98,8 @@
 #include <linux/sched/clock.h>
 #include <linux/tick.h>
 
+#include "gov.h"
+
 /*
  * The PULSE value is added to metrics when they grow and the DECAY_SHIFT value
  * is used for decreasing metrics on a regular basis.
