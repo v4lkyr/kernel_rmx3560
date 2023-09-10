@@ -97,7 +97,7 @@
 	(MFG3_SHADER_STACK0 | MFG4_SHADER_STACK1 | MFG5_SHADER_STACK2 | MFG6_SHADER_STACK4)
 
 #define SHADER_CORE_NUM                 (6)
-struct gpufreq_core_mask_info g_core_mask_table[] = {
+static struct gpufreq_core_mask_info g_core_mask_table[] = {
 	{6, GPU_SHADER_PRESENT_6},
 	{5, GPU_SHADER_PRESENT_5},
 	{4, GPU_SHADER_PRESENT_4},
