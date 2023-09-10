@@ -6,7 +6,7 @@ menu "Clock driver for MediaTek SoC"
 	depends on ARM || ARM64 || COMPILE_TEST
 
 config COMMON_CLK_MEDIATEK
-	tristate
+	tristate "Common Clock driver for Mediatek"
 	select RESET_CONTROLLER
 	help
 	  MediaTek SoCs' clock support.
