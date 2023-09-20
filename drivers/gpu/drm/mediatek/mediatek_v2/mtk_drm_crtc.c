@@ -5012,7 +5012,9 @@ static void ddp_cmdq_cb(struct cmdq_cb_data data)
 			mtk_drm_crtc_dump(crtc);
 			/* disable dislay driver debug log when error end. */
 			g_mobile_log = 0;
+#if IS_ENABLED(CONFIG_MTK_AEE_FEATURE)
 			DDPAEE_1("trigger: aee_kernel_exception_api dump, %s\n", __func__);
+#endif
 		}
 		/*Msync 2.0 related function*/
 		if (ovl_status & 1) {
