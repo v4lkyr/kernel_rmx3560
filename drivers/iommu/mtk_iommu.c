@@ -1007,6 +1007,7 @@ static void mtk_iommu_tlb_flush_range_sync(unsigned long iova, size_t size,
 		mtk_iommu_tlb_flush_all(orig_data);
 }
 
+#if IS_ENABLED(CONFIG_MTK_IOMMU_MISC_DBG)
 static void mtk_iommu_dump_tf_iova(struct mtk_iommu_data *data,
 		enum iommu_bank bank, u64 fault_iova)
 {
@@ -1032,12 +1033,11 @@ static void mtk_iommu_dump_tf_iova(struct mtk_iommu_data *data,
 			break;
 	}
 
-#if IS_ENABLED(CONFIG_MTK_IOMMU_MISC_DBG)
 	/* skip dump when fault iova = 0 */
 	if (fault_iova)
 		mtk_iova_map_dump(fault_iova, data->plat_data->tab_id);
-#endif
 }
+#endif
 
 #if IS_ENABLED(CONFIG_MTK_IOMMU_MISC_SECURE)
 static irqreturn_t mtk_iommu_dump_sec_bank(struct mtk_iommu_data *data,
@@ -1110,6 +1110,7 @@ static irqreturn_t mtk_iommu_isr_sec(int irq, struct mtk_iommu_data *data)
 }
 #endif
 
+#if IS_ENABLED(CONFIG_MTK_IOMMU_MISC_DBG)
 static void peri_iommu_read_data(void __iomem *base, enum peri_iommu iommu_id)
 {
 	u32 int_state0, int_state1, fault_id, va34_32, pa34_32, regval;
@@ -1169,7 +1170,9 @@ static void peri_iommu_read_data(void __iomem *base, enum peri_iommu iommu_id)
 	regval |= F_INT_CLR_BIT;
 	writel_relaxed(regval, base + REG_MMU_INT_CONTROL0);
 }
+#endif
 
+#if IS_ENABLED(CONFIG_MTK_IOMMU_MISC_DBG)
 void mtk_peri_iommu_isr(struct mtk_iommu_data *data, u32 bus_id)
 {
 	struct list_head *head = data->hw_list;
@@ -1192,6 +1195,7 @@ void mtk_peri_iommu_isr(struct mtk_iommu_data *data, u32 bus_id)
 	mtk_iommu_tlb_flush_all(data);
 	mtk_iommu_isr_record(data);
 }
+#endif
 
 #if IS_ENABLED(CONFIG_MTK_IOMMU_MISC_SECURE)
 static void mtk_iommu_mau_init(struct mtk_iommu_data *data);
@@ -1321,10 +1325,10 @@ static irqreturn_t mtk_iommu_isr(int irq, void *dev_id)
 		}
 		layer = fault_iova & F_MMU_FAULT_VA_LAYER_BIT;
 		write = fault_iova & F_MMU_FAULT_VA_WRITE_BIT;
-
+#if IS_ENABLED(CONFIG_MTK_IOMMU_MISC_DBG)
 		pr_info("%s, iommu:(%d,%d) reg_raw_data: int_status:0x%x,0x%x, int_id:0x%x, int_va:0x%llx, int_pa:0x%llx\n",
 			__func__, type, id, int_state0, int_state1, regval, fault_iova, fault_pa);
-
+#endif
 		if (MTK_IOMMU_HAS_FLAG(data->plat_data, IOVA_34_EN)) {
 			va34_32 = FIELD_GET(F_MMU_INVAL_VA_34_32_MASK, fault_iova);
 			fault_iova = fault_iova & F_MMU_INVAL_VA_31_12_MASK;
