@@ -479,7 +479,8 @@ static ssize_t fp_tee_node_write(struct file *file, const char __user *buf, size
 		return -EFAULT;
 	}
 	dev_info(fp_data_ptr->dev, "fp write state, %s\n", (char *)fp_state);
-#ifdef FP_TEE_BINDE_CORE_ENABLE
+#if (defined(OPLUS_FINGERPRINT_ENABLE_TEE_BINDERCORE) || defined(UFF_FINGERPRINT_ENABLE_TEE_BINDERCORE)) \
+        && defined(CONFIG_TRUSTONIC_TEE_SUPPORT)
 	dev_info(fp_data_ptr->dev, "FP_TEE_BINDE_CORE_ENABLE on\n");
 	if (fp_state[0] == '0') {
 		set_tee_worker_threads_on_big_core(false);

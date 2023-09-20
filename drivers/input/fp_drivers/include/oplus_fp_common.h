@@ -113,5 +113,8 @@ fp_vendor_t get_fpsensor_type(void);
 
 typedef int (*opticalfp_handler)(struct fp_underscreen_info *tp_info);
 void opticalfp_irq_handler_register(opticalfp_handler handler);
+#if (defined(OPLUS_FINGERPRINT_ENABLE_TEE_BINDERCORE) || defined(UFF_FINGERPRINT_ENABLE_TEE_BINDERCORE)) \
+        && defined(CONFIG_TRUSTONIC_TEE_SUPPORT)
 void set_tee_worker_threads_on_big_core(bool big_core);
+#endif
 #endif  /*_OPLUS_FP_COMMON_H_*/
