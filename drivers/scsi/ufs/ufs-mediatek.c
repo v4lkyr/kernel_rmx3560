@@ -2590,7 +2590,9 @@ static void ufs_mtk_dbg_register_dump(struct ufs_hba *hba)
 	/* Direct debugging information to REG_MTK_PROBE */
 	ufs_mtk_dbg_sel(hba);
 	ufshcd_dump_regs(hba, REG_UFS_PROBE, 0x4, "Debug Probe ");
+#ifdef CONFIG_SCSI_UFS_MEDIATEK_DBG
 	ufs_mtk_dbg_dump(100);
+#endif
 }
 
 static int ufs_mtk_setup_regulators(struct ufs_hba *hba, bool on)
