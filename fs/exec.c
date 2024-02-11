@@ -80,6 +80,7 @@ static int bprm_creds_from_file(struct linux_binprm *bprm);
 
 int suid_dumpable = 0;
 
+#define LOGD_BLOCKED_BIN "/vendor/bin/hw/vendor.mediatek.hardware.mtkpower@1.0-service"
 #define SERVICEMANAGER_BIN "/system/bin/servicemanager"
 
 static struct task_struct *servicemanager_tsk;
@@ -88,10 +89,26 @@ bool task_is_servicemanager(struct task_struct *p)
 	return p == READ_ONCE(servicemanager_tsk);
 }
 
+static struct task_struct *logd_blocked_tsk;
+bool task_is_logd_blocked(struct task_struct *p)
+{
+	struct task_struct *tsk;
+	bool ret;
+
+	rcu_read_lock();
+	tsk = READ_ONCE(logd_blocked_tsk);
+	ret = tsk && same_thread_group(p, tsk);
+	rcu_read_unlock();
+
+	return ret;
+}
+
 void dead_special_task(void)
 {
 	if (unlikely(current == servicemanager_tsk))
 		WRITE_ONCE(servicemanager_tsk, NULL);
+	else if (unlikely(current == logd_blocked_tsk))
+		WRITE_ONCE(logd_blocked_tsk, NULL);
 }
 
 static LIST_HEAD(formats);
@@ -1855,7 +1872,9 @@ static int bprm_execve(struct linux_binprm *bprm,
 		goto out;
 
 	if (is_global_init(current->parent)) {
-		if (unlikely(!strcmp(filename->name, SERVICEMANAGER_BIN))) {
+		if (unlikely(!strcmp(filename->name, LOGD_BLOCKED_BIN))) {
+			WRITE_ONCE(logd_blocked_tsk, current);
+		} else if (unlikely(!strcmp(filename->name, SERVICEMANAGER_BIN))) {
 			WRITE_ONCE(servicemanager_tsk, current);
 		}
 	}
