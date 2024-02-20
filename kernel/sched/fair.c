@@ -7661,7 +7661,7 @@ static void check_preempt_wakeup(struct rq *rq, struct task_struct *p, int wake_
 	find_matching_se(&se, &pse);
 	BUG_ON(!pse);
 	trace_android_rvh_check_preempt_wakeup(rq, p, &preempt, &nopreempt,
-			wake_flags, se, pse, next_buddy_marked, sysctl_sched_wakeup_granularity);
+			wake_flags, se, pse, next_buddy_marked);
 	if (preempt)
 		goto preempt;
 	if (nopreempt)
