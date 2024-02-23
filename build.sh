@@ -1,7 +1,7 @@
 clear && \
 git submodule update --init mkbootimg && \
 make LLVM=1 LLVM_IAS=1 gkicustom_defconfig && \
-time make LLVM=1 LLVM_IAS=1 -j16 && \
+time make LLVM=1 LLVM_IAS=1 -j$(nproc --all) && \
 python3 mkbootimg/mkbootimg.py \
 --kernel out/arch/arm64/boot/Image.gz \
 --ramdisk ramdisk \
