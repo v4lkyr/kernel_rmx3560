@@ -1,5 +1,5 @@
 config NANOHUB
-	tristate "Nanohub"
+	bool "Nanohub"
 	default N
 	help
 	  Enable support for the nanohub sensorhub driver.
