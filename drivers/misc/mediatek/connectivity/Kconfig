@@ -307,6 +307,8 @@ config MTK_COMBO_GPS
 config MTK_COMBO_WIFI
 	tristate "MediaTek combo chip Wi-Fi support"
 	depends on MTK_COMBO
+	select NET
+	select WIRELESS
 	select WIRELESS_EXT
 	select WEXT_PRIV
 

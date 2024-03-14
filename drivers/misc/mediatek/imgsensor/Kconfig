@@ -57,6 +57,8 @@ config MTK_IMGSENSOR_PLATFORM
 
 config MTK_V4L2_IMGSENSOR
 	tristate "MediaTek v4l2 image sensor support"
+	select MEDIA_SUPPORT
+	select VIDEO_DEV
 	select VIDEO_V4L2_SUBDEV_API
 	select MEDIA_CONTROLLER
 	select V4L2_FWNODE
