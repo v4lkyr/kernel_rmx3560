@@ -758,11 +758,11 @@ static bool fts_fwupg_check_flash_status(struct chip_data_ft3681 *ts_data,
 /*upgrade function*/
 
 static u8 pb_file_ft3681[] = {
-	#include "./FT3681_Pramboot_V1.3_20211109.i"
+	/*#include "./FT3681_Pramboot_V1.3_20211109.i"*/
 };
 
 static u8 pb_cal_file_ft3681[] = {
-#include "./FT3681_Cal_Test_app.i"
+	/*#include "./FT3681_Cal_Test_app.i"*/
 };
 
 static int ft3681_fwupg_get_boot_state(enum FW_STATUS *fw_sts)
