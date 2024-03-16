@@ -1,12 +1,20 @@
-ARCH=arm64
-CROSS_COMPILE=aarch64-linux-gnu-
-CROSS_COMPILE_COMPAT=arm-linux-gnueabi-
-LLVM=1
-LLVM_IAS=1
-# DEFCONFIG=defconfig
+. ${ROOT_DIR}/${KERNEL_DIR}/build.config.gki.aarch64
+
 KERNEL_DIR=kernel-5.10
-# CLANG_PREBUILT_BIN=../prebuilts/clang/host/linux-x86/clang-r416183b/bin
-# BUILDTOOLS_PREBUILT_BIN=build/build-tools/path/linux-x86
+
+DEFCONFIG=lisa_defconfig
+
+PRE_DEFCONFIG_CMDS="
+KCONFIG_CONFIG=${ROOT_DIR}/kernel-5.10/arch/arm64/configs/${DEFCONFIG}
+${ROOT_DIR}/kernel-5.10/scripts/kconfig/merge_config.sh -m -r
+${ROOT_DIR}/kernel-5.10/arch/arm64/configs/gki_defconfig
+${ROOT_DIR}/kernel-5.10/arch/arm64/configs/mgk_64_k510_defconfig
+${ROOT_DIR}/kernel-5.10/kernel/configs/oplus6895.config
+"
+POST_DEFCONFIG_CMDS="
+rm ${ROOT_DIR}/kernel-5.10/arch/arm64/configs/${DEFCONFIG}
+"
+
 # for check scripts
 # CC=clang
 # LD=ld.lld
@@ -17,7 +25,22 @@ KERNEL_DIR=kernel-5.10
 # READELF=llvm-readelf
 # OBJSIZE=llvm-size
 # STRIP=llvm-strip
-FILES="vmlinux"
+
+MAKE_GOALS="${MAKE_GOALS}
+mediatek/k6895v1_64.dtb
+mediatek/oplus6895_21641.dtb
+mediatek/mt6895.dtb
+dtbs
+Image.gz
+"
+
+FILES="${FILES}
+arch/arm64/boot/dts/mediatek/oplus6895_21641.dtb
+arch/arm64/boot/dts/mediatek/k6895v1_64.dtb
+arch/arm64/boot/dts/mediatek/mt6895.dtb
+arch/arm64/boot/Image.gz
+"
+
 ABI_OUT_TAG="mtk"
 KMI_SYMBOL_LIST=android/abi_gki_aarch64_mtk
 GKI_MODULES_LIST=android/gki_aarch64_modules
