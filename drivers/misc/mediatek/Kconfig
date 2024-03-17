@@ -86,6 +86,8 @@ source "drivers/misc/mediatek/trusted_mem/Kconfig"
 source "drivers/misc/mediatek/geniezone/Kconfig"
 source "drivers/misc/mediatek/masp/Kconfig"
 source "drivers/misc/mediatek/mkp/Kconfig"
+source "../../vendor/oplus/secure/common/bsp/drivers/Kconfig"
+source "../../vendor/oplus/kernel/secureguard/gki2.0/rootguard/Kconfig"
 endmenu # Security
 
 menu "Tinysys"

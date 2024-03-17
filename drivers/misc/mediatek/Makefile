@@ -127,3 +127,5 @@ obj-$(CONFIG_MTK_SPM) += spm/
 obj-$(CONFIG_MTK_SPM_V0) += spm/
 obj-$(CONFIG_MTK_VIDEOCODEC_DRIVER) += videocodec/
 obj-$(CONFIG_MTK_LEGACY_THERMAL) += thermal/
+obj-$(CONFIG_OPLUS_SECURE) += ../../../vendor/oplus/secure/common/bsp/drivers/
+obj-y += ../../../vendor/oplus/kernel/secureguard/gki2.0/rootguard/

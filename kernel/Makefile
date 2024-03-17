@@ -139,8 +139,10 @@ obj-$(CONFIG_OPLUS_FEATURE_PERFORMANCE_SCHED) += oplus_cpu/sched/
 #endif /* OPLUS_FEATURE_PERFORMANCE_SCHED */
 
 #ifdef OPLUS_FEATURE_SENSOR_SMEM
-obj-$(CONFIG_HORAE_THERMAL_SHELL) += oplus_cpu/thermal/
+obj-$(CONFIG_HORAE_THERMAL_SHELL) += oplus_cpu/thermal/horae_shell_temp/
 #endif /* OPLUS_FEATURE_SENSOR_SMEM */
+
+obj-$(CONFIG_OPLUS_IPA_THERMAL) += oplus_cpu/thermal/oplus_ipa_thermal/
 
 #ifdef OPLUS_FEATURE_GKI_CPUFREQ_BOUNCING
 obj-$(CONFIG_OPLUS_FEATURE_GKI_CPUFREQ_BOUNCING) += oplus_cpu/cpufreq_bouncing/

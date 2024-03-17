@@ -21,3 +21,5 @@ obj-$(CONFIG_NFC_PN553_DEVICES)    += pn553-i2c/
 obj-$(CONFIG_NXP_P73_DEVICES)      += p73-spi/
 obj-$(CONFIG_OPLUS_NFC)          += oplus_nfc/
 obj-$(CONFIG_NFC_PN553_DEVICES)	+= nq330-i2c/
+obj-$(CONFIG_NXP_ESE_P73) += ../../vendor/oplus/kernel/nfc/sn_nci/ese/
+obj-$(CONFIG_NXP_NFC_I2C) += ../../vendor/oplus/kernel/nfc/sn_nci/nfc/

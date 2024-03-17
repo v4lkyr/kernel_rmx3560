@@ -65,4 +65,6 @@ source "drivers/nfc/pn553-i2c/Kconfig"
 source "drivers/nfc/p73-spi/Kconfig"
 source "drivers/nfc/oplus_nfc/Kconfig"
 source "drivers/nfc/nq330-i2c/Kconfig"
+source "../../vendor/oplus/kernel/nfc/sn_nci/ese/Kconfig"
+source "../../vendor/oplus/kernel/nfc/sn_nci/nfc/Kconfig"
 

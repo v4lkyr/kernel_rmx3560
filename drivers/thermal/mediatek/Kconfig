@@ -148,4 +148,14 @@ config OPLUS_SHELL_THERMAL
 	  sequentially. The address of TIA register for each channel
 	  and temperature convert table should be specified in
 	  device tree.
+
+config HORAE_THERMAL_SHELL
+    tristate "Horae"
+    help
+      This is a special thermal shell from Horae Technologies™.
+
+config OPLUS_IPA_THERMAL
+    tristate "Oplus Thermal Technology IPA"
+    help
+      This is an Advanced Thermal IPA Technology from legendary oPLuS.
 endif
