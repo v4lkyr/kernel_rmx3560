@@ -125,7 +125,7 @@ CFILES += btmtk_main.c btmtk_fw_log.c
 ccflags-y += -I$(src)/include/ -I$(KERNEL_SRC)/include/ -I$(KERNEL_SRC)/drivers/bluetooth
 
 ccflags-y += -DANDROID_OS
-ccflags-y += -Werror
+#ccflags-y += -Werror
 
 $(MOD_NAME)-objs := $(CFILES:.c=.o)
 

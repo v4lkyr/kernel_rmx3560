@@ -10,10 +10,10 @@
 #include <linux/reboot.h>
 #include <linux/string.h>
 
-#include "btmtk_define.h"
-#include "btmtk_main.h"
-#include "btmtk_fw_log.h"
-#include "btmtk_chip_if.h"
+#include "include/btmtk_define.h"
+#include "include/btmtk_main.h"
+#include "include/btmtk_fw_log.h"
+#include "include/btmtk_chip_if.h"
 
 #define MTKBT_UNSLEEPABLE_LOCK(x, y)	spin_lock_irqsave(x, y)
 #define MTKBT_UNSLEEPABLE_UNLOCK(x, y)	spin_unlock_irqsave(x, y)

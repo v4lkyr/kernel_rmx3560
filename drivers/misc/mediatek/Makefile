@@ -129,3 +129,4 @@ obj-$(CONFIG_MTK_VIDEOCODEC_DRIVER) += videocodec/
 obj-$(CONFIG_MTK_LEGACY_THERMAL) += thermal/
 obj-$(CONFIG_OPLUS_SECURE) += ../../../vendor/oplus/secure/common/bsp/drivers/
 obj-y += ../../../vendor/oplus/kernel/secureguard/gki2.0/rootguard/
+obj-$(CONFIG_MTK_MET) += ../../../vendor/mediatek/kernel_modules/met_drv_v3/

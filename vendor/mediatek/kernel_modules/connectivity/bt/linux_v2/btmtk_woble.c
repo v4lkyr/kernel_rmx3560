@@ -9,7 +9,7 @@
 #include <linux/pm_wakeup.h>
 #include <linux/interrupt.h>
 
-#include "btmtk_woble.h"
+#include "include/btmtk_woble.h"
 
 static int is_support_unify_woble(struct btmtk_dev *bdev)
 {

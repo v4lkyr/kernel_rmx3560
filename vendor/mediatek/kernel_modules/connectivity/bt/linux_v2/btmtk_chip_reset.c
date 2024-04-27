@@ -3,7 +3,7 @@
  * Copyright (c) 2018 MediaTek Inc.
  */
 
-#include "btmtk_chip_reset.h"
+#include "include/btmtk_chip_reset.h"
 
 #if (KERNEL_VERSION(4, 15, 0) > LINUX_VERSION_CODE)
 static void btmtk_reset_timer(unsigned long arg)

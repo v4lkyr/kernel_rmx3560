@@ -35,7 +35,7 @@
 #include <linux/rtc.h>
 
 #ifdef CFG_CHIP_RESET_KO_SUPPORT
-#include "reset.h"
+#include "../../../wlan/core/gen4-mt79xx/reset/include/reset.h"
 #endif
 
 /** Driver version */

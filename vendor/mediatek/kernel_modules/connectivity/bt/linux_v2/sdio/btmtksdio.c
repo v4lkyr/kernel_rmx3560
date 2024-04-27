@@ -10,7 +10,7 @@
 #include <uapi/linux/sched/types.h>
 #endif
 
-#include "btmtk_sdio.h"
+#include "../include/sdio/btmtk_sdio.h"
 
 static char event_need_compare[EVENT_COMPARE_SIZE] = {0};
 static char event_need_compare_len;

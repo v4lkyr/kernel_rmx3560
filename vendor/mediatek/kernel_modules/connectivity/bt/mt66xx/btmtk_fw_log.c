@@ -3,8 +3,8 @@
  * Copyright (c) 2019 MediaTek Inc.
  */
 
-#include "btmtk_main.h"
-#include "btmtk_fw_log.h"
+#include "include/btmtk_main.h"
+#include "include/btmtk_fw_log.h"
 
 /*
  * BT Logger Tool will turn on/off Firmware Picus log, and set 3 log levels (Low, SQC and Debug)

@@ -2,7 +2,7 @@
 #include <linux/proc_fs.h>
 #include <linux/seq_file.h>
 
-#include "btmtk_fw_log.h"
+#include "include/btmtk_fw_log.h"
 
 /*
  * BT Logger Tool will turn on/off Firmware Picus log, and set 3 log levels (Low, SQC and Debug)

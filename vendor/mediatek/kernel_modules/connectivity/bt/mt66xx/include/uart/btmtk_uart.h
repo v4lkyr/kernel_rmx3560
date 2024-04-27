@@ -5,7 +5,7 @@
 
 #ifndef _BTMTK_UART_H_
 #define _BTMTK_UART_H_
-#include "btmtk_define.h"
+#include "../btmtk_define.h"
 
 
 #include <linux/tty.h>

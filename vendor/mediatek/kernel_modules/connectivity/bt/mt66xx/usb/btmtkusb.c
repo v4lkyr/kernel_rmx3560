@@ -10,10 +10,10 @@
 #include <asm/unaligned.h>
 #include <net/bluetooth/bluetooth.h>
 #include <net/bluetooth/hci_core.h>
-#include "btmtk_define.h"
-#include "btmtk_usb.h"
-#include "btmtk_main.h"
-#include "btmtk_woble.h"
+#include "../include/btmtk_define.h"
+#include "../../linux_v2/include/usb/btmtk_usb.h"
+#include "../include/btmtk_main.h"
+#include "../include/btmtk_woble.h"
 
 static struct usb_driver btusb_driver;
 static struct btmtk_cif_chip_reset reset_func;

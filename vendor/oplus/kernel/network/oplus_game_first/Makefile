@@ -1,7 +1,7 @@
 #
 # Add for kernel data info send to user space.
 #
-KBUILD_OPTIONS += CONFIG_OPLUS_FEATURE_GAME_FIRST=m
+obj-$(CONFIG_OPLUS_FEATURE_GAME_FIRST) += oplus_game_first.o
 
 KERNEL_SRC ?= /lib/modules/$(shell uname -r)/build
 M ?= $(shell pwd)

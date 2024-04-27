@@ -1,0 +1,4 @@
+config OPLUS_FEATURE_GAME_FIRST
+    tristate "Game is always first"
+    help
+      Yeah.

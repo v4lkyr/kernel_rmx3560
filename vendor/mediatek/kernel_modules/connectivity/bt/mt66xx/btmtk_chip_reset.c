@@ -4,8 +4,8 @@
  */
 
 
-#include "btmtk_main.h"
-#include "btmtk_woble.h"
+#include "include/btmtk_main.h"
+#include "include/btmtk_woble.h"
 
 void btmtk_reset_waker(struct work_struct *work)
 {

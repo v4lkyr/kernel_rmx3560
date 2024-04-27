@@ -3,7 +3,7 @@
  * Copyright (c) 2018 MediaTek Inc.
  */
 
-#include "btmtk_buffer_mode.h"
+#include "include/btmtk_buffer_mode.h"
 
 static struct btmtk_buffer_mode_struct btmtk_buffer_mode;
 

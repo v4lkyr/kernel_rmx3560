@@ -16,3 +16,11 @@ obj-$(CONFIG_OPLUS_FEATURE_QR_SCAN) += oplus_qr_scan/
 #ifdef OPLUS_FEATURE_DATA_MODULE
 obj-$(CONFIG_OPLUS_FEATURE_DATA_MODULE) += data_module/
 #endif /* OPLUS_FEATURE_DATA_MODULE */
+
+obj-$(CONFIG_OPLUS_FEATURE_APP_MONITOR) += oplus_apps_monitor/
+
+obj-y += oplus_game_first/
+obj-y += linkpower_module/
+obj-y += oplus_network_tuning/
+obj-y += oplus_score/
+obj-y += oplus_socket_stats_report/

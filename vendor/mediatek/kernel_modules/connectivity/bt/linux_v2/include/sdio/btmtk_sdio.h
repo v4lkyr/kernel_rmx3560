@@ -14,11 +14,11 @@
 #include <linux/mmc/sdio_ids.h>
 #include <linux/mmc/sdio_func.h>
 
-#include "btmtk_define.h"
-#include "btmtk_main.h"
-#include "btmtk_woble.h"
-#include "btmtk_buffer_mode.h"
-#include "btmtk_chip_reset.h"
+#include "../btmtk_define.h"
+#include "../btmtk_main.h"
+#include "../btmtk_woble.h"
+#include "../btmtk_buffer_mode.h"
+#include "../btmtk_chip_reset.h"
 
 #ifndef BTMTK_SDIO_DEBUG
 #define BTMTK_SDIO_DEBUG 0

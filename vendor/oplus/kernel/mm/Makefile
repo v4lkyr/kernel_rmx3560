@@ -15,6 +15,7 @@ obj-$(CONFIG_PROACTIVE_COMPACT) += proactive_compact/
 
 #ifdef OPLUS_FEATURE_MEMLEAK_DETECT
 obj-$(CONFIG_DUMP_TASKS_MEM)	+= dump_tasks_mem/
+obj-$(CONFIG_MEMLEAK_DETECT)	+= memleak_detect/
 #endif /* OPLUS_FEATURE_MEMLEAK_DETECT */
 
 obj-$(CONFIG_THP_ZSMALLOC) += thp_zsmalloc/

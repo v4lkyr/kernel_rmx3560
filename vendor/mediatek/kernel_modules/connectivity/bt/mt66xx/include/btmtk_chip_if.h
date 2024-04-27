@@ -7,13 +7,13 @@
 #define __BTMTK_CHIP_IF_H__
 
 #ifdef CHIP_IF_USB
-#include "btmtk_usb.h"
+#include "usb/btmtk_usb.h"
 #elif defined(CHIP_IF_SDIO)
-#include "btmtk_sdio.h"
+#include "sdio/btmtk_sdio.h"
 #elif defined(CHIP_IF_UART)
-#include "btmtk_uart.h"
+#include "uart/btmtk_uart.h"
 #elif defined(CHIP_IF_BTIF)
-#include "btmtk_btif.h"
+#include "btif/btmtk_btif.h"
 #define CFG_SUPPORT_BT_DL_WIFI_PATCH    0
 #define CFG_SUPPORT_DVT                 0
 #define CFG_SUPPORT_BLUEZ               0

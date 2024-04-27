@@ -8,3 +8,13 @@ source "net/oplus_modules/oplus_stats_calc/Kconfig"
 source "net/oplus_modules/oplus_qr_scan/Kconfig"
 
 source "net/oplus_modules/data_module/Kconfig"
+
+source "net/oplus_modules/oplus_apps_monitor/Kconfig"
+
+source "net/oplus_modules/oplus_network_tuning/Kconfig"
+
+source "net/oplus_modules/oplus_score/Kconfig"
+
+source "net/oplus_modules/oplus_game_first/Kconfig"
+
+source "net/oplus_modules/oplus_socket_stats_report/Kconfig"

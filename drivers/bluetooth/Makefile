@@ -46,3 +46,8 @@ hci_uart-$(CONFIG_BT_HCIUART_QCA)	+= hci_qca.o
 hci_uart-$(CONFIG_BT_HCIUART_AG6XX)	+= hci_ag6xx.o
 hci_uart-$(CONFIG_BT_HCIUART_MRVL)	+= hci_mrvl.o
 hci_uart-objs				:= $(hci_uart-y)
+
+obj-y += ../../vendor/mediatek/kernel_modules/connectivity/connfem/
+obj-y += ../../vendor/mediatek/kernel_modules/connectivity/conninfra/
+obj-y += ../../vendor/mediatek/kernel_modules/connectivity/bt/linux_v2/
+obj-y += ../../vendor/mediatek/kernel_modules/connectivity/bt/mt66xx/

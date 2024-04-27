@@ -1,7 +1,7 @@
 #
 # Add for kernel data info send to user space.
 #
-KBUILD_OPTIONS += CONFIG_OPLUS_FEATURE_DATA_EVAL=m
+obj-$(CONFIG_OPLUS_FEATURE_DATA_EVAL) += oplus_score.o
 
 KERNEL_SRC ?= /lib/modules/$(shell uname -r)/build
 M ?= $(shell pwd)

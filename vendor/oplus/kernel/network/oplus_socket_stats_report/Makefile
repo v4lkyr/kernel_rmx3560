@@ -1,7 +1,7 @@
 #
 # Add for kernel socket info send to user space.
 #
-KBUILD_OPTIONS += CONFIG_OPLUS_FEATURE_ESTABLISH_REPORT=m
+obj-$(CONFIG_OPLUS_FEATURE_ESTABLISH_REPORT) += netlink_esreport.o
 
 KERNEL_SRC ?= /lib/modules/$(shell uname -r)/build
 M ?= $(shell pwd)
