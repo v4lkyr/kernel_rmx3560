@@ -122,7 +122,7 @@ static int scp_set_clk_cg(unsigned int on)
 			__func__, on);
 		return 0;
 	}
-
+#ifdef CCCI_KMODULE_ENABLE
 	/* Before OFF CCIF2 clk, set the ACK register to 1 */
 	if (on == 0) {
 		if (!ccci_scp_ctl.ccif2_ap_base || !ccci_scp_ctl.ccif2_md_base) {
@@ -148,7 +148,7 @@ static int scp_set_clk_cg(unsigned int on)
 		} else
 			clk_disable_unprepare(scp_clk_table[idx].clk_ref);
 	}
-
+#endif
 	CCCI_NORMAL_LOG(MD_SYS1, FSM, "%s:on=%u set done!\n",
 		__func__, on);
 	scp_clk_last_state = on;
@@ -229,7 +229,7 @@ static void ccci_scp_md_state_sync_work(struct work_struct *work)
 		break;
 	};
 }
-
+#ifdef CCCI_KMODULE_ENABLE
 static void ccci_scp_ipi_rx_work(struct work_struct *work)
 {
 	struct ccci_ipi_msg *ipi_msg_ptr = NULL;
@@ -340,6 +340,7 @@ static int ccci_scp_ipi_handler(unsigned int id, void *prdata, void *data,
 	return 0;
 }
 #endif
+#endif
 
 int fsm_ccism_init_ack_handler(int md_id, int data)
 {
@@ -410,6 +411,7 @@ static struct notifier_block apsync_notifier = {
 
 static int ccif_scp_clk_init(struct device *dev)
 {
+#ifdef CCCI_KMODULE_ENABLE
 	int idx = 0;
 
 	for (idx = 0; idx < ARRAY_SIZE(scp_clk_table); idx++) {
@@ -423,12 +425,13 @@ static int ccif_scp_clk_init(struct device *dev)
 			return -1;
 		}
 	}
-
+#endif
 	return 0;
 }
 
 static int fsm_scp_hw_init(struct ccci_fsm_scp *scp_ctl, struct device *dev)
 {
+#ifdef CCCI_KMODULE_ENABLE
 	scp_ctl->ccif2_ap_base = of_iomap(dev->of_node, 0);
 	scp_ctl->ccif2_md_base = of_iomap(dev->of_node, 1);
 
@@ -437,7 +440,7 @@ static int fsm_scp_hw_init(struct ccci_fsm_scp *scp_ctl, struct device *dev)
 			"ccif2_ap_base=NULL or ccif2_md_base=NULL\n");
 		return -1;
 	}
-
+#endif
 	return 0;
 }
 
@@ -462,7 +465,9 @@ int fsm_scp_init(struct ccci_fsm_scp *scp_ctl, struct device *dev)
 	}
 
 #ifdef FEATURE_SCP_CCCI_SUPPORT
+#ifdef CCCI_KMODULE_ENABLE
 	scp_A_register_notify(&apsync_notifier);
+#endif
 #endif
 #ifndef CCCI_KMODULE_ENABLE
 	scp_ctl->md_id = ctl->md_id;

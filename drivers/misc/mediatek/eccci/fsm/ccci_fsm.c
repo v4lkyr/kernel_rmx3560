@@ -881,7 +881,7 @@ int ccci_fsm_init(int md_id)
 	}
 	ctl->fsm_thread = kthread_run(fsm_main_thread, ctl,
 		"ccci_fsm%d", md_id + 1);
-#ifndef CCCI_KMODULE_ENABLE
+#ifdef CCCI_KMODULE_ENABLE
 #ifdef FEATURE_SCP_CCCI_SUPPORT
 	fsm_scp_init(&ctl->scp_ctl);
 #endif

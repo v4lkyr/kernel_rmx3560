@@ -301,9 +301,10 @@ int fsm_append_command(struct ccci_fsm_ctl *ctl,
 int fsm_append_event(struct ccci_fsm_ctl *ctl, enum CCCI_FSM_EVENT event_id,
 	unsigned char *data, unsigned int length);
 
-#ifndef CCCI_KMODULE_ENABLE
+#ifdef CCCI_KMODULE_ENABLE
 int fsm_scp_init(struct ccci_fsm_scp *scp_ctl);
 #else
+int fsm_scp_init(struct ccci_fsm_scp *scp_ctl, struct device *dev);
 extern void ccci_fsm_scp_register(int md_id, struct ccci_fsm_scp *scp_ctl);
 #endif
 int fsm_poller_init(struct ccci_fsm_poller *poller_ctl);
