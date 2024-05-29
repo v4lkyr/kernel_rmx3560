@@ -17,6 +17,7 @@
 # http://www.gnu.org/licenses/gpl-2.0.html.
 #
 #
+BUILD_RULE := OOT
 
 ifeq ($(BUILD_RULE),OOT)
 
