@@ -122,6 +122,14 @@ export quiet Q KBUILD_VERBOSE
 
 KBUILD_OUTPUT := out
 
+CONFIG_MTK_PLATFORM := mt6895
+export CONFIG_MTK_PLATFORM
+$(info CONFIG_MTK_PLATFORM = $(CONFIG_MTK_PLATFORM))
+
+MTK_PLATFORM_VERSION := mt6895
+export MTK_PLATFORM_VERSION
+$(info MTK_PLATFORM_VERSION = $(MTK_PLATFORM_VERSION))
+
 # Do we want to change the working directory?
 ifeq ("$(origin O)", "command line")
   KBUILD_OUTPUT := $(O)
