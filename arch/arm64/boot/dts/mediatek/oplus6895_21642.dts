@@ -1096,7 +1096,7 @@ jiiov_fp_irq_active: jiiov_fp_irq_active {
 /* #endif */
 
 //#include "mediatek/cust_mt6895_camera_v4l2.dtsi"
-#include <oplus6895_21641/cust.dtsi>
+#include "../oplus6895_21641/cust.dtsi"
 #include "mediatek/cust_mt6895_lisa_camera_v4l2.dtsi"
 
 #include "mediatek/cust_mt6895_lisa_thermal.dtsi"
