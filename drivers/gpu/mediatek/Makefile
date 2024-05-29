@@ -11,15 +11,24 @@
 # GNU General Public License for more details.
 #
 
-ifneq ($(CONFIG_MTK_GPU_VERSION),"")
+ifneq ($(CONFIG_MTK_GPU_VERSION),)
 MTK_GPU_VERSION = $(subst ",,$(CONFIG_MTK_GPU_VERSION))
+export MTK_GPU_VERSION
 
 $(info MTK_GPU_VERSION = $(MTK_GPU_VERSION))
 
 ifneq ($(CONFIG_MTK_PLATFORM),)
-export MTK_PLATFORM = $(subst ",,$(CONFIG_MTK_PLATFORM))
+MTK_PLATFORM = $(subst ",,$(CONFIG_MTK_PLATFORM))
+export MTK_PLATFORM
+$(info MTK_PLATFORM = $(MTK_PLATFORM))
 else
-export MTK_PLATFORM = $(word 4,$(MTK_GPU_VERSION))
+MTK_PLATFORM = $(word 4,$(MTK_GPU_VERSION))
+export MTK_PLATFORM
+$(info MTK_PLATFORM = $(MTK_PLATFORM))
+
+MTK_PLATFORM_VERSION = $(MTK_PLATFORM)
+export MTK_PLATFORM_VERSION
+$(info MTK_PLATFORM_VERSION = $(MTK_PLATFORM_VERSION))
 endif
 
 ifeq ($(MTK_PLATFORM),mt6873)
@@ -48,7 +57,7 @@ ifneq ($(CONFIG_MTK_GPU_VERSION),"")
 ifeq ($(CONFIG_MTK_GPU_R5P0),y)
     obj-y += $(subst ",,$(CONFIG_MTK_PLATFORM))/
 else ifneq ($(word 1,$(MTK_GPU_VERSION)),)
-    obj-y += gpu_$(word 1,$(MTK_GPU_VERSION))/
+    obj-y += ../../../vendor/mediatek/kernel_modules/gpu/gpu_$(word 1,$(MTK_GPU_VERSION))/
 else
     obj-y += $(subst ",,$(CONFIG_MTK_PLATFORM))/
 endif
