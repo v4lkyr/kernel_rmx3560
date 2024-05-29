@@ -207,12 +207,14 @@ int reviser_mem_alloc(struct device *dev, struct reviser_mem *mem, bool fix)
 	}
 
 #ifndef MODULE
+#ifdef CONFIG_DEBUG_KMEMLEAK
 	/*
 	 * Avoid a kmemleak false positive.
 	 * The pointer is using for debugging,
 	 * but it will be used by other apusys HW
 	 */
 	kmemleak_no_scan(kva);
+#endif
 #endif
 	mem->kva = (uint64_t)kva;
 	mem->iova = (uint64_t)iova;
