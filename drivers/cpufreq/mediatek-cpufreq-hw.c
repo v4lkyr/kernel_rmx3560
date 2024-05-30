@@ -351,8 +351,12 @@ static int mtk_cpu_resources_init(struct platform_device *pdev,
 
 	return 0;
 }
+#if IS_ENABLED(CONFIG_OPLUS_FEATURE_PROJECTINFO)
 extern int get_boot_mode(void);
+#endif
+#if IS_ENABLED(CONFIG_OPLUS_FEATURE_OPROJECT)
 extern unsigned int get_project(void);
+#endif
 static int mtk_cpufreq_hw_driver_probe(struct platform_device *pdev)
 {
 	struct device_node *cpu_np;
@@ -360,9 +364,15 @@ static int mtk_cpufreq_hw_driver_probe(struct platform_device *pdev)
 	const u16 *offsets;
 	unsigned int cpu;
 	int ret;
+#if IS_ENABLED(CONFIG_OPLUS_FEATURE_PROJECTINFO)
 	boot_mode = get_boot_mode();
+#endif
+#if IS_ENABLED(CONFIG_OPLUS_FEATURE_OPROJECT)
 	proj = get_project();
+#endif
+#if defined(CONFIG_OPLUS_FEATURE_PROJECTINFO) && defined(CONFIG_OPLUS_FEATURE_OPROJECT)
 	pr_info("kuroky boot_mode :%d proj :%u\n", boot_mode, proj);
+#endif
 	offsets = of_device_get_match_data(&pdev->dev);
 	if (!offsets)
 		return -EINVAL;
