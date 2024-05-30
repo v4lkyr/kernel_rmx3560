@@ -652,11 +652,13 @@ int mtk_eint_set_debounce(struct mtk_eint *eint, unsigned long eint_num,
 	reg = eint->instances[instance].base;
 	set_offset = (index / 4) * 4 + eint->comp->regs->dbnc_set;
 	clr_offset = (index / 4) * 4 + eint->comp->regs->dbnc_clr;
+#if IS_ENABLED(CONFIG_OPLUS_FEATURE_OPROJECT)
 	if ((get_project() == 22021 || get_project() == 22221) && (eint_num == 15)) {
 		dev_err(eint->dev, "litre: %s  the project is 22021,not need to set sdio debounce %d\n",
 			__func__,eint_num);
 		return -EINVAL;
 	}
+#endif
 	if (!mtk_eint_can_en_debounce(eint, eint_num))
 		return -EINVAL;
 
