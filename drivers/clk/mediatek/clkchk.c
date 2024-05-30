@@ -25,7 +25,9 @@
 
 #include "clk-mtk.h"
 #include "clkchk.h"
+#if IS_ENABLED(CONFIG_MTK_AEE_FEATURE)
 #include "mt-plat/aee.h"
+#endif
 
 #define MAX_CLK_NUM			1024
 #define PLL_LEN				20
