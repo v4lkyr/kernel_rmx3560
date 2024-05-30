@@ -3,4 +3,4 @@
 #
 #obj-$(CONFIG_OPLUS_KERNEL_SECURE_KEVENTUPLOAD) 	+= keventupload/
 
-obj-y 	+= rootguard/
+obj-$(CONFIG_OPLUS_KERNEL_SECURE_FEATURE) 	+= rootguard/

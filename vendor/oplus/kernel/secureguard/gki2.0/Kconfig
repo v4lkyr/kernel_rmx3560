@@ -1,6 +1,6 @@
 config OPLUS_KERNEL_SECURE_FEATURE
         tristate "config oplus kernel secure guard feature"
-        default y
+        default n
 	help
 		sdefine this config to add oplus kernel secure guard feature.
 		
