@@ -55,6 +55,7 @@ static void dmabuf_page_pool_add(struct dmabuf_page_pool *pool, struct page *pag
 	spin_unlock(&container_pool->spinlock);
 	mod_node_page_state(page_pgdat(page), NR_KERNEL_MISC_RECLAIMABLE,
 			    1 << pool->order);
+	mutex_unlock(&pool->mutex);
 }
 
 static struct page *dmabuf_page_pool_remove(struct dmabuf_page_pool *pool, int index)

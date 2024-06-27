@@ -97,6 +97,8 @@ static int mtk_disp_pwm_config(struct pwm_chip *chip, struct pwm_device *pwm,
 	 * period = (PWM_CLK_RATE * period_ns) / (10^9 * (clk_div + 1)) - 1
 	 * high_width = (PWM_CLK_RATE * duty_ns) / (10^9 * (clk_div + 1))
 	 */
+	pr_notice("%s duty=%d period=%d\n", __func__, duty_ns, period_ns);
+
 	rate = clk_get_rate(mdp->clk_main);
 	clk_div = div_u64(rate * period_ns, NSEC_PER_SEC) >>
 			  PWM_PERIOD_BIT_WIDTH;
@@ -114,6 +116,9 @@ static int mtk_disp_pwm_config(struct pwm_chip *chip, struct pwm_device *pwm,
 	high_width = div64_u64(rate * duty_ns, div);
 	value = period | (high_width << PWM_HIGH_WIDTH_SHIFT);
 
+	pr_notice("%s rate[%llx] clk_div[%u] div[%llx] high_width[%u] value[%u] period[%u]",
+		__func__, rate, clk_div, div, high_width, value, period);
+
 	if (mdp->data->bls_debug && !mdp->data->has_commit) {
 		/*
 		 * For MT2701, disable double buffer before writing register
@@ -130,6 +135,7 @@ static int mtk_disp_pwm_config(struct pwm_chip *chip, struct pwm_device *pwm,
 	mtk_disp_pwm_update_bits(mdp, mdp->data->con0,
 				 PWM_CLKDIV_MASK,
 				 clk_div << PWM_CLKDIV_SHIFT);
+
 	mtk_disp_pwm_update_bits(mdp, mdp->data->con1,
 				 PWM_PERIOD_MASK | PWM_HIGH_WIDTH_MASK,
 				 value);
@@ -197,6 +203,7 @@ static int mtk_disp_pwm_probe(struct platform_device *pdev)
 	struct resource *r;
 	int ret;
 
+	pr_notice("%s start", __func__);
 	mdp = devm_kzalloc(&pdev->dev, sizeof(*mdp), GFP_KERNEL);
 	if (!mdp)
 		return -ENOMEM;
@@ -205,16 +212,22 @@ static int mtk_disp_pwm_probe(struct platform_device *pdev)
 
 	r = platform_get_resource(pdev, IORESOURCE_MEM, 0);
 	mdp->base = devm_ioremap_resource(&pdev->dev, r);
-	if (IS_ERR(mdp->base))
+	if (IS_ERR(mdp->base)) {
+		pr_notice("%s mdp base null", __func__);
 		return PTR_ERR(mdp->base);
+	}
 
 	mdp->clk_main = devm_clk_get(&pdev->dev, "main");
-	if (IS_ERR(mdp->clk_main))
+	if (IS_ERR(mdp->clk_main)) {
+		pr_notice("%s clk_main is null", __func__);
 		return PTR_ERR(mdp->clk_main);
+	}
 
 	mdp->clk_mm = devm_clk_get(&pdev->dev, "mm");
-	if (IS_ERR(mdp->clk_mm))
+	if (IS_ERR(mdp->clk_mm)) {
+		pr_notice("%s clk_mm is null", __func__);
 		return PTR_ERR(mdp->clk_mm);
+	}
 
 	mdp->chip.dev = &pdev->dev;
 	mdp->chip.ops = &mtk_disp_pwm_ops;
@@ -228,6 +241,8 @@ static int mtk_disp_pwm_probe(struct platform_device *pdev)
 	}
 
 	platform_set_drvdata(pdev, mdp);
+
+	pr_notice("%s end", __func__);
 
 	return 0;
 }
@@ -249,6 +264,16 @@ static const struct mtk_pwm_data mt2701_pwm_data = {
 	.has_commit = false,
 	.bls_debug = 0xb0,
 	.bls_debug_mask = 0x3,
+};
+
+static const struct mtk_pwm_data mt6799_pwm_data = {
+	.enable_mask = BIT(0),
+	.con0 = 0x18,
+	.con0_sel = 0x0,
+	.con1 = 0x1C,
+	.has_commit = true,
+	.commit = 0xC,
+	.commit_mask = 0x1,
 };
 
 static const struct mtk_pwm_data mt8173_pwm_data = {
@@ -274,6 +299,13 @@ static const struct mtk_pwm_data mt8183_pwm_data = {
 static const struct of_device_id mtk_disp_pwm_of_match[] = {
 	{ .compatible = "mediatek,mt2701-disp-pwm", .data = &mt2701_pwm_data},
 	{ .compatible = "mediatek,mt6595-disp-pwm", .data = &mt8173_pwm_data},
+	{ .compatible = "mediatek,mt6873-disp-pwm", .data = &mt6799_pwm_data},
+	{ .compatible = "mediatek,mt6853-disp-pwm", .data = &mt6799_pwm_data},
+	{ .compatible = "mediatek,mt6833-disp-pwm", .data = &mt6799_pwm_data},
+	{ .compatible = "mediatek,mt6983-disp-pwm0", .data = &mt6799_pwm_data},
+	{ .compatible = "mediatek,mt6879-disp-pwm", .data = &mt6799_pwm_data},
+	{ .compatible = "mediatek,mt6895-disp-pwm0", .data = &mt6799_pwm_data},
+	{ .compatible = "mediatek,mt6855-disp-pwm", .data = &mt6799_pwm_data},
 	{ .compatible = "mediatek,mt8173-disp-pwm", .data = &mt8173_pwm_data},
 	{ .compatible = "mediatek,mt8183-disp-pwm", .data = &mt8183_pwm_data},
 	{ }

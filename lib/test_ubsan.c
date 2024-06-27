@@ -111,6 +111,12 @@ static const test_ubsan_fp skip_ubsan_array[] = {
 	test_ubsan_null_ptr_deref,
 };
 
+/* Excluded because they Oops the module. */
+static const test_ubsan_fp skip_ubsan_array[] = {
+	test_ubsan_divrem_overflow,
+	test_ubsan_null_ptr_deref,
+};
+
 static int __init test_ubsan_init(void)
 {
 	unsigned int i;

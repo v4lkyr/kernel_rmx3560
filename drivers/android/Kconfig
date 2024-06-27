@@ -109,6 +109,14 @@ config ANDROID_VENDOR_OEM_DATA
 
 	  If even slightly unsure, say Y.
 
+config BINDER_TRANSACTION_LATENCY_TRACKING
+	tristate "Android Binder transaction tracking"
+	help
+	  Used for track abnormal binder transaction which is over threshold,
+	  when the transaction is done or be free, this transaction would be
+	  checked whether it executed overtime.
+	  If yes, printing out the detailed info.
+
 endif # if ANDROID
 
 endmenu

@@ -188,7 +188,6 @@
   del_timer
   del_timer_sync
   destroy_workqueue
-  dev_close
   dev_driver_string
   _dev_err
   dev_err_probe
@@ -257,7 +256,6 @@
   devm_input_allocate_device
   devm_ioremap
   devm_ioremap_resource
-  devm_kasprintf
   devm_kfree
   devm_kmalloc
   devm_kmemdup
@@ -292,7 +290,6 @@
   devm_reset_control_array_get
   __devm_reset_control_get
   devm_snd_dmaengine_pcm_register
-  devm_snd_soc_register_card
   devm_snd_soc_register_component
   devm_usb_get_phy
   _dev_notice
@@ -349,7 +346,6 @@
   dma_heap_get_name
   dmam_alloc_attrs
   dma_map_page_attrs
-  dma_map_resource
   dma_map_sg_attrs
   dmam_free_coherent
   dma_mmap_attrs
@@ -366,7 +362,6 @@
   dma_sync_single_for_cpu
   dma_sync_single_for_device
   dma_unmap_page_attrs
-  dma_unmap_resource
   dma_unmap_sg_attrs
   down
   down_read
@@ -505,14 +500,13 @@
   fd_install
   find_next_bit
   find_next_zero_bit
-  find_vma
   finish_wait
   flush_dcache_page
   flush_delayed_work
   flush_work
   flush_workqueue
   fpsimd_context_busy
-  fput
+  frame_vector_to_pages
   free_irq
   free_netdev
   __free_pages
@@ -598,7 +592,6 @@
   i2c_get_adapter
   i2c_put_adapter
   i2c_register_driver
-  i2c_smbus_read_byte
   i2c_smbus_read_byte_data
   i2c_smbus_read_i2c_block_data
   i2c_smbus_read_word_data
@@ -614,8 +607,6 @@
   idr_alloc
   idr_destroy
   idr_find
-  idr_for_each
-  idr_get_next
   idr_preload
   idr_remove
   iio_buffer_init
@@ -692,7 +683,6 @@
   kimage_voffset
   __kmalloc
   kmalloc_caches
-  kmalloc_order_trace
   kmem_cache_alloc
   kmem_cache_alloc_trace
   kmem_cache_create
@@ -806,7 +796,6 @@
   nla_put
   nla_reserve
   no_llseek
-  nonseekable_open
   noop_llseek
   nr_cpu_ids
   ns_to_kernel_old_timeval
@@ -880,8 +869,6 @@
   panic_notifier_list
   param_array_ops
   param_ops_bool
-  param_ops_byte
-  param_ops_charp
   param_ops_int
   param_ops_string
   param_ops_uint
@@ -1099,7 +1086,6 @@
   sdhci_suspend_host
   seq_lseek
   seq_printf
-  seq_putc
   seq_puts
   seq_read
   set_page_dirty_lock
@@ -1148,12 +1134,10 @@
   snd_soc_dapm_disable_pin_unlocked
   snd_soc_dapm_force_enable_pin_unlocked
   snd_soc_dapm_get_enum_double
-  snd_soc_dapm_get_pin_switch
   snd_soc_dapm_get_volsw
   snd_soc_dapm_info_pin_switch
   snd_soc_dapm_new_controls
   snd_soc_dapm_put_enum_double
-  snd_soc_dapm_put_pin_switch
   snd_soc_dapm_put_volsw
   snd_soc_dapm_sync_unlocked
   snd_soc_get_dai_name

@@ -275,7 +275,7 @@ static int mtu3_prepare_tx_gpd(struct mtu3_ep *mep, struct mtu3_request *mreq)
 	}
 
 	/* prevent reorder, make sure GPD's HWO is set last */
-	mb();
+	smp_mb();
 	gpd->dw0_info |= cpu_to_le32(GPD_FLAGS_IOC | GPD_FLAGS_HWO);
 
 	mreq->gpd = gpd;
@@ -310,7 +310,7 @@ static int mtu3_prepare_rx_gpd(struct mtu3_ep *mep, struct mtu3_request *mreq)
 	ext_addr |= GPD_EXT_NGP(mtu, upper_32_bits(enq_dma));
 	gpd->dw3_info = cpu_to_le32(ext_addr);
 	/* prevent reorder, make sure GPD's HWO is set last */
-	mb();
+	smp_mb();
 	gpd->dw0_info |= cpu_to_le32(GPD_FLAGS_IOC | GPD_FLAGS_HWO);
 
 	mreq->gpd = gpd;
@@ -326,6 +326,17 @@ void mtu3_insert_gpd(struct mtu3_ep *mep, struct mtu3_request *mreq)
 		mtu3_prepare_tx_gpd(mep, mreq);
 	else
 		mtu3_prepare_rx_gpd(mep, mreq);
+}
+
+void mtu3_clean_gpd(struct mtu3_ep *mep, struct mtu3_request *mreq)
+{
+	struct qmu_gpd *gpd = mreq->gpd;
+
+	if (!gpd)
+		return;
+
+	/* set all fields to zero */
+	memset(gpd, 0, sizeof(*gpd));
 }
 
 int mtu3_qmu_start(struct mtu3_ep *mep)
@@ -451,7 +462,7 @@ static void qmu_tx_zlp_error_handler(struct mtu3 *mtu, u8 epnum)
 	}
 	mtu3_setbits(mbase, MU3D_EP_TXCR0(mep->epnum), TX_TXPKTRDY);
 	/* prevent reorder, make sure GPD's HWO is set last */
-	mb();
+	smp_mb();
 	/* by pass the current GDP */
 	gpd_current->dw0_info |= cpu_to_le32(GPD_FLAGS_BPS | GPD_FLAGS_HWO);
 
@@ -485,7 +496,8 @@ static void qmu_done_tx(struct mtu3 *mtu, u8 epnum)
 	dev_dbg(mtu->dev, "%s EP%d, last=%p, current=%p, enq=%p\n",
 		__func__, epnum, gpd, gpd_current, ring->enqueue);
 
-	while (gpd && gpd != gpd_current && !GET_GPD_HWO(gpd)) {
+	while (gpd != NULL && gpd != gpd_current &&
+			!GET_GPD_HWO(gpd)) {
 
 		mreq = next_request(mep);
 
@@ -524,7 +536,8 @@ static void qmu_done_rx(struct mtu3 *mtu, u8 epnum)
 	dev_dbg(mtu->dev, "%s EP%d, last=%p, current=%p, enq=%p\n",
 		__func__, epnum, gpd, gpd_current, ring->enqueue);
 
-	while (gpd && gpd != gpd_current && !GET_GPD_HWO(gpd)) {
+	while (gpd != NULL && gpd != gpd_current &&
+			!GET_GPD_HWO(gpd)) {
 
 		mreq = next_request(mep);
 
