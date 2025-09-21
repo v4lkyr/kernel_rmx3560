@@ -809,6 +809,10 @@ ifdef CONFIG_CC_IS_CLANG
 KBUILD_CPPFLAGS += -Qunused-arguments
 KBUILD_CFLAGS += -Wno-format-invalid-specifier
 KBUILD_CFLAGS += -Wno-gnu
+KBUILD_CFLAGS += -mllvm -polly-num-threads=0 \
+			-mllvm -polly-omp-backend=LLVM \
+			-mllvm -polly-scheduling=dynamic \
+			-mllvm -polly-scheduling-chunksize=1
 # CLANG uses a _MergedGlobals as optimization, but this breaks modpost, as the
 # source of a reference will be _MergedGlobals and not on of the whitelisted names.
 # See modpost pattern 2
