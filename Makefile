@@ -107,6 +107,36 @@ endif
 
 export quiet Q KBUILD_VERBOSE
 
+# Call a source code checker (by default, "sparse") as part of the
+# C compilation.
+#
+# Use 'make C=1' to enable checking of only re-compiled files.
+# Use 'make C=2' to enable checking of *all* source files, regardless
+# of whether they are re-compiled or not.
+#
+# See the file "Documentation/dev-tools/sparse.rst" for more details,
+# including where to get the "sparse" utility.
+
+ifeq ("$(origin C)", "command line")
+  KBUILD_CHECKSRC = $(C)
+endif
+ifndef KBUILD_CHECKSRC
+  KBUILD_CHECKSRC = 0
+endif
+
+export KBUILD_CHECKSRC
+
+# Use make M=dir or set the environment variable KBUILD_EXTMOD to specify the
+# directory of external module to build. Setting M= takes precedence.
+ifeq ("$(origin M)", "command line")
+  KBUILD_EXTMOD := $(M)
+endif
+
+$(if $(word 2, $(KBUILD_EXTMOD)), \
+	$(error building multiple external modules is not supported))
+
+export KBUILD_EXTMOD
+
 # Kbuild will save output files in the current working directory.
 # This does not need to match to the root of the kernel source tree.
 #
@@ -202,36 +232,6 @@ ifeq ($(need-sub-make),)
 # but we want to display it when entering to the output directory
 # so that IDEs/editors are able to understand relative filenames.
 MAKEFLAGS += --no-print-directory
-
-# Call a source code checker (by default, "sparse") as part of the
-# C compilation.
-#
-# Use 'make C=1' to enable checking of only re-compiled files.
-# Use 'make C=2' to enable checking of *all* source files, regardless
-# of whether they are re-compiled or not.
-#
-# See the file "Documentation/dev-tools/sparse.rst" for more details,
-# including where to get the "sparse" utility.
-
-ifeq ("$(origin C)", "command line")
-  KBUILD_CHECKSRC = $(C)
-endif
-ifndef KBUILD_CHECKSRC
-  KBUILD_CHECKSRC = 0
-endif
-
-# Use make M=dir or set the environment variable KBUILD_EXTMOD to specify the
-# directory of external module to build. Setting M= takes precedence.
-ifeq ("$(origin M)", "command line")
-  KBUILD_EXTMOD := $(M)
-endif
-
-$(if $(word 2, $(KBUILD_EXTMOD)), \
-	$(error building multiple external modules is not supported))
-
-export KBUILD_CHECKSRC KBUILD_EXTMOD
-
-extmod-prefix = $(if $(KBUILD_EXTMOD),$(KBUILD_EXTMOD)/)
 
 # ANDROID: set up mixed-build support. mixed-build allows device kernel modules
 # to be compiled against a GKI kernel. This approach still uses the headers and
@@ -1225,6 +1225,7 @@ endif # CONFIG_BPF
 
 PHONY += prepare0
 
+extmod-prefix = $(if $(KBUILD_EXTMOD),$(KBUILD_EXTMOD)/)
 export MODORDER := $(extmod-prefix)modules.order
 export MODULES_NSDEPS := $(extmod-prefix)modules.nsdeps
 
