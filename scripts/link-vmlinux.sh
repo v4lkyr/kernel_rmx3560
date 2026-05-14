@@ -324,6 +324,7 @@ cleanup()
 	rm -f System.map
 	rm -f vmlinux
 	rm -f vmlinux.o
+	rm -f .vmlinux.d
 }
 
 on_exit()
@@ -461,3 +462,6 @@ if [ -n "${CONFIG_KALLSYMS}" ]; then
 		exit 1
 	fi
 fi
+
+# For fixdep
+echo "vmlinux: $0" > .vmlinux.d

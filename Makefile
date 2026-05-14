@@ -1332,7 +1332,7 @@ cmd_link-vmlinux =                                                 \
 
 ifndef KBUILD_MIXED_TREE
 vmlinux: scripts/link-vmlinux.sh autoksyms_recursive $(vmlinux-deps) FORCE
-	+$(call if_changed,link-vmlinux)
+	+$(call if_changed_dep,link-vmlinux)
 endif
 
 targets := vmlinux
