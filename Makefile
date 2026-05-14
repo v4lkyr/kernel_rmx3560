@@ -816,12 +816,6 @@ KBUILD_CFLAGS += -mno-global-merge
 # because -Wuninitialized will still flag when an uninitialized const variable
 # is used.
 KBUILD_CFLAGS += $(call cc-disable-warning, default-const-init-unsafe)
-else
-
-# Warn about unmarked fall-throughs in switch statement.
-# Disabled for clang while comment to attribute conversion happens and
-# https://github.com/ClangBuiltLinux/linux/issues/636 is discussed.
-KBUILD_CFLAGS += $(call cc-option,-Wimplicit-fallthrough,)
 endif
 
 # These warnings generated too much noise in a regular build.
@@ -1008,6 +1002,9 @@ NOSTDINC_FLAGS += -nostdinc -isystem $(shell $(CC) -print-file-name=include)
 
 # warn about C99 declaration after statement
 KBUILD_CFLAGS += -Wdeclaration-after-statement
+
+# Warn about unmarked fall-throughs in switch statement.
+KBUILD_CFLAGS += $(call cc-option,-Wimplicit-fallthrough=5,$(call cc-option,-Wimplicit-fallthrough,))
 
 # Variable Length Arrays (VLAs) should not be used anywhere in the kernel
 KBUILD_CFLAGS += -Wvla
