@@ -497,10 +497,10 @@ static unsigned long sugov_iowait_apply(struct sugov_cpu *sg_cpu, u64 time,
  * Make sugov_should_update_freq() ignore the rate limit when DL
  * has increased the utilization.
  */
-static inline void ignore_dl_rate_limit(struct sugov_cpu *sg_cpu, struct sugov_policy *sg_policy)
+static inline void ignore_dl_rate_limit(struct sugov_cpu *sg_cpu)
 {
 	if (cpu_bw_dl(cpu_rq(sg_cpu->cpu)) > sg_cpu->bw_min)
-		WRITE_ONCE(sg_policy->limits_changed, true);
+		WRITE_ONCE(sg_cpu->sg_policy->limits_changed, true);
 }
 
 static void sugov_update_single(struct update_util_data *hook, u64 time,
@@ -515,7 +515,7 @@ static void sugov_update_single(struct update_util_data *hook, u64 time,
 	sugov_iowait_boost(sg_cpu, time, flags);
 	sg_cpu->last_update = time;
 
-	ignore_dl_rate_limit(sg_cpu, sg_policy);
+	ignore_dl_rate_limit(sg_cpu);
 
 	if (!sugov_should_update_freq(sg_policy, time))
 		return;
@@ -575,7 +575,7 @@ sugov_update_shared(struct update_util_data *hook, u64 time, unsigned int flags)
 	sugov_iowait_boost(sg_cpu, time, flags);
 	sg_cpu->last_update = time;
 
-	ignore_dl_rate_limit(sg_cpu, sg_policy);
+	ignore_dl_rate_limit(sg_cpu);
 
 	if (sugov_should_update_freq(sg_policy, time)) {
 		next_f = sugov_next_freq_shared(sg_cpu, time);
