@@ -10,6 +10,7 @@
 ../vendor/oplus/kernel/network/oplus_network_tuning
 ../vendor/oplus/kernel/network/oplus_socket_stats_report
 ../vendor/oplus/kernel/power/power_diag
+../vendor/oplus/kernel/explorer
 ../vendor/oplus/kernel/cpu/game_opt
 ../vendor/oplus/kernel/cpu/sched/task_cpustats
 ../vendor/oplus/secure/common/bsp/drivers/oplus_secure_common

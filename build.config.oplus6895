@@ -85,6 +85,7 @@ vendor/mediatek/kernel_modules/connectivity/wlan/core/gen4m
 vendor/mediatek/kernel_modules/gpu
 vendor/mediatek/kernel_modules/met_drv_v3
 vendor/oplus/kernel/power/power_diag
+vendor/oplus/kernel/explorer
 vendor/oplus/kernel/cpu/game_opt
 vendor/oplus/kernel/cpu/sched/task_cpustats
 vendor/oplus/kernel/cpu/thermal/horae_shell_temp
