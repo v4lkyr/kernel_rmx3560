@@ -5,5 +5,5 @@ KERNEL_SRC ?= /lib/modules/$(shell uname -r)/build
 
 M ?= $(shell pwd)
 modules modules_install clean:
-	$(MAKE) -C $(KERNEL_SRC) M=$(M) $(KBUILD_OPTIONS) KBUILD_EXTRA_SYMBOLS="$(abspath $(O)/../vendor/oplus/kernel/nfc/sn_nci/nfc/Module.symvers)" $(@)
+	$(MAKE) -C $(KERNEL_SRC) M=$(M) $(KBUILD_OPTIONS) KBUILD_EXTRA_SYMBOLS="$(abspath $(O)/vendor/oplus/kernel/nfc/sn_nci/nfc/Module.symvers)" $(@)
 

@@ -1,6 +1,6 @@
-extra_symbols := $(abspath $(O)/../vendor/mediatek/kernel_modules/met_drv_v3/Module.symvers)
+extra_symbols := $(abspath $(O)/vendor/mediatek/kernel_modules/met_drv_v3/Module.symvers)
 ifneq (,$(wildcard ../met_drv_secure_v3))
-	extra_symbols += $(abspath $(O)/../vendor/mediatek/kernel_modules/met_drv_secure_v3/Module.symvers)
+	extra_symbols += $(abspath $(O)/vendor/mediatek/kernel_modules/met_drv_secure_v3/Module.symvers)
 endif
 
 all: PRIVATE_SYMBOLS := $(extra_symbols)

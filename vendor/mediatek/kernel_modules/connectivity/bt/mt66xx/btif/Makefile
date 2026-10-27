@@ -88,10 +88,10 @@ ccflags-y += -I$(CONNFEM_SRC)/include
 ccflags-y += -I$(WMT_SRC)/debug_utility
 ccflags-y += -I$(BTIF_SRC)/common/inc
 
-ccflags-y += -I$(src)/core/include
-ccflags-y += -I$(src)/connsys/connac_2_0
-ccflags-y += -I$(src)/../include
-ccflags-y += -I$(src)/../include/btif
+ccflags-y += -I$(srctree)/$(src)/core/include
+ccflags-y += -I$(srctree)/$(src)/connsys/connac_2_0
+ccflags-y += -I$(srctree)/$(src)/../include
+ccflags-y += -I$(srctree)/$(src)/../include/btif
 
 # ---------------------------------------------------
 # Objects List
@@ -110,3 +110,18 @@ HIF_OBJS := btmtk_btif_main.o btmtk_queue.o
 $(MODULE_NAME)-objs  += $(CORE_OBJS)
 $(MODULE_NAME)-objs  += $(HIF_OBJS)
 $(MODULE_NAME)-objs  += $(CHIP_OBJS)
+
+# Support building this kbuild-style Makefile as an external module through
+# build/build.sh, which invokes `make -C <module>` without an explicit target.
+ifeq ($(KERNELRELEASE),)
+KERNEL_SRC ?= /lib/modules/$(shell uname -r)/build
+M ?= $(shell pwd)
+extra_symbols := $(abspath $(O)/vendor/mediatek/kernel_modules/connectivity/conninfra/Module.symvers)
+extra_symbols += $(abspath $(O)/vendor/mediatek/kernel_modules/connectivity/connfem/Module.symvers)
+all:
+	$(MAKE) -C $(KERNEL_SRC) M=$(M) modules $(KBUILD_OPTIONS) KBUILD_EXTRA_SYMBOLS="$(extra_symbols)"
+modules_install:
+	$(MAKE) -C $(KERNEL_SRC) M=$(M) modules_install
+clean:
+	$(MAKE) -C $(KERNEL_SRC) M=$(M) clean
+endif

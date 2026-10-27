@@ -1,4 +1,4 @@
-extra_symbols := $(abspath $(O)/../vendor/mediatek/kernel_modules/met_drv_v3/Module.symvers)
+extra_symbols := $(abspath $(O)/vendor/mediatek/kernel_modules/met_drv_v3/Module.symvers)
 
 all: PRIVATE_SYMBOLS := $(extra_symbols)
 all:

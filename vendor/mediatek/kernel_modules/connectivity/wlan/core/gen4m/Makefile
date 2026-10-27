@@ -518,17 +518,17 @@ ccflags-y += -DCFG_SUPPORT_NAN=0
 endif
 
 ifeq ($(MODULE_NAME),)
-MODULE_NAME := wlan_$(shell echo $(strip $(WLAN_CHIP_ID)) | tr A-Z a-z)_$(CONFIG_MTK_COMBO_WIFI_HIF)
+MODULE_NAME := wlan_drv_gen4m_$(shell echo $(strip $(WLAN_CHIP_ID)) | tr A-Z a-z)
 endif
 
 ccflags-y += -DDBG=0
-ccflags-y += -I$(src)/os -I$(src)/os/$(os)/include
-ccflags-y += -I$(src)/include -I$(src)/include/nic -I$(src)/include/mgmt -I$(src)/include/chips
+ccflags-y += -I$(srctree)/$(src)/os -I$(srctree)/$(src)/os/$(os)/include
+ccflags-y += -I$(srctree)/$(src)/include -I$(srctree)/$(src)/include/nic -I$(srctree)/$(src)/include/mgmt -I$(srctree)/$(src)/include/chips
 ifeq ($(CONFIG_MTK_WIFI_NAN), y)
-ccflags-y += -I$(src)/include/nan -I$(src)/include/nan/wpa_supp
+ccflags-y += -I$(srctree)/$(src)/include/nan -I$(srctree)/$(src)/include/nan/wpa_supp
 endif
 ifeq ($(CFG_SUPPORT_WIFI_SYSDVT), 1)
-ccflags-y += -I$(src)/include/dvt
+ccflags-y += -I$(srctree)/$(src)/include/dvt
 endif
 ccflags-y += -I$(srctree)/drivers/misc/mediatek/base/power/include/
 ccflags-y += -I$(srctree)/drivers/misc/mediatek/include/mt-plat/
@@ -550,22 +550,22 @@ ccflags-y += -DCFG_MTK_MDDP_SUPPORT=0
 endif
 
 ifeq ($(CONFIG_MTK_COMBO_WIFI_HIF), sdio)
-ccflags-y += -I$(src)/os/$(os)/hif/sdio/include
+ccflags-y += -I$(srctree)/$(src)/os/$(os)/hif/sdio/include
 else ifeq ($(CONFIG_MTK_COMBO_WIFI_HIF), pcie)
-ccflags-y += -I$(src)/os/$(os)/hif/common/include
-ccflags-y += -I$(src)/os/$(os)/hif/pcie/include
+ccflags-y += -I$(srctree)/$(src)/os/$(os)/hif/common/include
+ccflags-y += -I$(srctree)/$(src)/os/$(os)/hif/pcie/include
 ifneq ($(findstring 3_0,$(MTK_COMBO_CHIP)),)
-ccflags-y += -I$(src)/include/chips/coda/soc3_0
+ccflags-y += -I$(srctree)/$(src)/include/chips/coda/soc3_0
 endif
 else ifeq ($(CONFIG_MTK_COMBO_WIFI_HIF), axi)
-ccflags-y += -I$(src)/os/$(os)/hif/common/include
-ccflags-y += -I$(src)/os/$(os)/hif/axi/include
+ccflags-y += -I$(srctree)/$(src)/os/$(os)/hif/common/include
+ccflags-y += -I$(srctree)/$(src)/os/$(os)/hif/axi/include
 else ifeq ($(CONFIG_MTK_COMBO_WIFI_HIF), usb)
-ccflags-y += -I$(src)/os/$(os)/hif/usb/include
+ccflags-y += -I$(srctree)/$(src)/os/$(os)/hif/usb/include
 else ifeq ($(CONFIG_MTK_COMBO_WIFI_HIF), ut)
-ccflags-y += -I$(src)/test -I$(src)/test/lib/include -I$(src)/test/testcases -I$(src)/test/lib/hif
+ccflags-y += -I$(srctree)/$(src)/test -I$(srctree)/$(src)/test/lib/include -I$(srctree)/$(src)/test/testcases -I$(srctree)/$(src)/test/lib/hif
 else ifeq ($(CONFIG_MTK_COMBO_WIFI_HIF), none)
-ccflags-y += -I$(src)/os/$(os)/hif/none/include
+ccflags-y += -I$(srctree)/$(src)/os/$(os)/hif/none/include
 endif
 
 ifneq ($(PLATFORM_FLAGS), )
@@ -971,10 +971,10 @@ endif
 ifeq ($(MTK_WLAN_SERVICE), yes)
 ccflags-y += -DCONFIG_WLAN_SERVICE=1
 ccflags-y += -DCONFIG_TEST_ENGINE_OFFLOAD=1
-ccflags-y += -I$(src)/$(SERVICE_DIR)include
-ccflags-y += -I$(src)/$(SERVICE_DIR)service/include
-ccflags-y += -I$(src)/$(SERVICE_DIR)glue/osal/include
-ccflags-y += -I$(src)/$(SERVICE_DIR)glue/hal/include
+ccflags-y += -I$(srctree)/$(src)/$(SERVICE_DIR)include
+ccflags-y += -I$(srctree)/$(src)/$(SERVICE_DIR)service/include
+ccflags-y += -I$(srctree)/$(src)/$(SERVICE_DIR)glue/osal/include
+ccflags-y += -I$(srctree)/$(src)/$(SERVICE_DIR)glue/hal/include
 $(info $$CCFLAG is [{$(ccflags-y)}])
 SERVICE_OBJS := $(SERVICE_DIR)agent/agent.o \
                 $(SERVICE_DIR)service/service_test.o \
@@ -1002,7 +1002,7 @@ $(MODULE_NAME)-objs  += $(NAN_SEC_OBJS)
 #ifdef OPLUS_FEATURE_WIFI_HARDWARE_POWER
 #CONNECTIVITY.WIFI.HARDWARE.POWER.26106 2023/06/01 , add for wake up package parse
 $(MODULE_NAME)-objs  += $(OPLUS_WIFI_POWER)
-ccflags-y += -I$(src)/oplus_wifi_power
+ccflags-y += -I$(srctree)/$(src)/oplus_wifi_power
 #endif /* OPLUS_FEATURE_WIFI_HARDWARE_POWER */
 
 #ifdef OPLUS_FEATURE_WIFI_OPLUSWFD
@@ -1029,3 +1029,20 @@ endif
 #CONNECTIVITY.WIFI.P2P.3615099. Add for GC + AP support
 ccflags-y += -DCFG_P2P_CONNECT_ALL_BSS=1
 #endif /* OPLUS_FEATURE_WIFI_CAPCENTER_GC_AP_CONNECT */
+
+# Support building this kbuild-style Makefile as an external module through
+# build/build.sh, which invokes `make -C <module>` without an explicit target.
+ifeq ($(KERNELRELEASE),)
+KERNEL_SRC ?= /lib/modules/$(shell uname -r)/build
+M ?= $(shell pwd)
+extra_symbols := $(abspath $(O)/vendor/mediatek/kernel_modules/connectivity/common/Module.symvers)
+extra_symbols += $(abspath $(O)/vendor/mediatek/kernel_modules/connectivity/conninfra/Module.symvers)
+extra_symbols += $(abspath $(O)/vendor/mediatek/kernel_modules/connectivity/connfem/Module.symvers)
+extra_symbols += $(abspath $(O)/vendor/mediatek/kernel_modules/connectivity/wlan/adaptor/Module.symvers)
+all:
+	$(MAKE) -C $(KERNEL_SRC) M=$(M) modules $(KBUILD_OPTIONS) KBUILD_EXTRA_SYMBOLS="$(extra_symbols)"
+modules_install:
+	$(MAKE) -C $(KERNEL_SRC) M=$(M) modules_install
+clean:
+	$(MAKE) -C $(KERNEL_SRC) M=$(M) clean
+endif
