@@ -1,4 +1,5 @@
 ../vendor/mediatek/kernel_modules/fpsgo_cus
+../vendor/mediatek/kernel_modules/msync2_frd_cus
 ../vendor/mediatek/kernel_modules/met_drv_v3
 ../vendor/oplus/kernel/network/oplus_score
 ../vendor/oplus/kernel/network/oplus_dns_hook
