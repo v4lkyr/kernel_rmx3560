@@ -5,7 +5,7 @@ Pack the kernel build output into fastboot-flashable images for the
 realme GT Neo 3 (MT6895 / Dimensity 8100, device codename ``lisaa``).
 
 The layout is reproduced from the stock Android 12 images that live in
-``temp/``:
+``stock/``:
 
   boot.img         - our Image.gz + the stock boot ramdisk (unchanged)
   vendor_boot.img  - stock vendor ramdisk with every module replaced by the
@@ -17,11 +17,11 @@ Everything that is not a module (init, firmware, config files, ...) is taken
 from the stock images, so only the pieces that this kernel build produces are
 changed.
 
-Usage (from the workspace root, i.e. the directory that contains out/ and
-temp/):
+Usage (from the kernel source tree, i.e. the directory that contains
+``stock/`` and ``tools/``):
 
-    BUILD_CONFIG=kernel-5.10/build.config.oplus6895 build/build.sh -j20
-    kernel-5.10/tools/pack/pack_images.py
+    ./build.sh                 # build everything and pack
+    tools/pack/pack_images.py  # pack only, using an existing out/dist
 
 The build output directory is auto-detected (``out/*/dist``); pass ``--dist``
 to override it.  The output is written to ``out/images/``.
@@ -33,12 +33,13 @@ the images it produced.
 import argparse
 import re
 import shutil
+import struct
 import subprocess
 import sys
 from pathlib import Path
 
 # --------------------------------------------------------------------------
-# Stock image constants (from avbtool info_image on the images in temp/).
+# Stock image constants (from avbtool info_image on the images in stock/).
 # --------------------------------------------------------------------------
 
 FINGERPRINT = ("alps/hal_mgvi_64_armv82/mgvi_64_armv82:12/"
@@ -90,20 +91,27 @@ def sh(cmd, capture=False, check=True):
 def find_root(explicit):
     if explicit:
         return Path(explicit).resolve()
-    # <root>/kernel-5.10/tools/pack/pack_images.py
-    cand = Path(__file__).resolve().parents[3]
-    for c in (cand, Path.cwd()):
-        if (c / "out").is_dir() and (c / "temp").is_dir():
-            return c
-    sys.exit("error: cannot locate workspace root (out/ and temp/), "
-             "use --root")
+    # <root>/tools/pack/pack_images.py
+    return Path(__file__).resolve().parents[2]
+
+
+def stock_dir(root):
+    """Directory holding the stock images used as the packing reference."""
+    for name in ("stock", "temp"):
+        d = root / name
+        if all((d / f).is_file() for f in
+               ("boot.img", "vendor_boot.img", "vendor_dlkm.img")):
+            return d
+    sys.exit("error: stock images not found; expected boot.img, "
+             "vendor_boot.img and vendor_dlkm.img in stock/")
 
 
 def find_tool(root, name, extra=()):
     for c in extra:
         if Path(c).is_file():
             return str(c)
-    for c in (root / "prebuilts/kernel-build-tools/linux-x86/bin" / name,
+    for c in (root / "tools/pack" / name,
+              root / "prebuilts/kernel-build-tools/linux-x86/bin" / name,
               root / "build/build-tools/path/linux-x86" / name):
         if c.is_file():
             return str(c)
@@ -197,6 +205,20 @@ def build_newc(entries):
         out += e.data
         out += b"\x00" * (-len(out) % 4)
     return bytes(out)
+
+
+def build_dtbo(dtb, dst, page_size=2048):
+    """Wrap one DTB in a DTBO image (same layout as mkdtboimg create)."""
+    data = Path(dtb).read_bytes()
+    header_size, entry_size = 32, 32
+    dt_offset = header_size + entry_size
+    total = dt_offset + len(data)
+    blob = bytearray()
+    blob += struct.pack(">8I", 0xd7b7ab1e, total, header_size, entry_size,
+                        1, header_size, page_size, 0)
+    blob += struct.pack(">8I", len(data), dt_offset, 0, 0, 0, 0, 0, 0)
+    blob += data
+    Path(dst).write_bytes(blob)
 
 
 # --------------------------------------------------------------------------
@@ -306,7 +328,7 @@ def build_boot(root, dist, work, out, unpack, mkbootimg, avbtool):
     if boot_dir.exists():
         shutil.rmtree(boot_dir)
     boot_dir.mkdir(parents=True)
-    sh([sys.executable, unpack, "--boot_img", root / "temp/boot.img",
+    sh([sys.executable, unpack, "--boot_img", stock_dir(root) / "boot.img",
         "--out", boot_dir], capture=True)
 
     raw = work / "boot.raw.img"
@@ -335,13 +357,14 @@ def build_boot(root, dist, work, out, unpack, mkbootimg, avbtool):
 
 
 def build_vendor_boot(root, dist, work, out, unpack, mkbootimg, avbtool,
-                      lz4, dtboimg, ramdisk_mods, ramdisk_meta):
+                      lz4, ramdisk_mods, ramdisk_meta):
     log("[4/6] vendor_boot.img")
     vdir = work / "stock_vendor_boot"
     if vdir.exists():
         shutil.rmtree(vdir)
     vdir.mkdir(parents=True)
-    sh([sys.executable, unpack, "--boot_img", root / "temp/vendor_boot.img",
+    sh([sys.executable, unpack,
+        "--boot_img", stock_dir(root) / "vendor_boot.img",
         "--out", vdir], capture=True)
 
     cpio_path = work / "vendor_ramdisk.cpio"
@@ -374,8 +397,7 @@ def build_vendor_boot(root, dist, work, out, unpack, mkbootimg, avbtool,
     sh([lz4, "-l", "-12", "-f", new_cpio, vendor_ramdisk], capture=True)
 
     dtbo = work / "dtbo.img"
-    sh([sys.executable, dtboimg, "create", dtbo, "--page_size=2048",
-        dist / "mt6895.dtb"], capture=True)
+    build_dtbo(dist / "mt6895.dtb", dtbo)
 
     raw = work / "vendor_boot.raw.img"
     sh([sys.executable, mkbootimg,
@@ -408,7 +430,7 @@ def build_vendor_boot(root, dist, work, out, unpack, mkbootimg, avbtool,
 def build_vendor_dlkm(root, work, out, avbtool, debugfs_bin, e2fsck,
                       vdlkm_mods, vdlkm_meta):
     log("[5/6] vendor_dlkm.img")
-    stock = root / "temp/vendor_dlkm.img"
+    stock = stock_dir(root) / "vendor_dlkm.img"
     data_size = ext4_data_size(root, stock)
     dst = out / "vendor_dlkm.img"
     with open(stock, "rb") as f, open(dst, "wb") as o:
@@ -565,7 +587,7 @@ def verify(root, out, work, avbtool, debugfs_bin, lz4, unpack, dtb,
 def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--root", help="workspace root (contains out/ and temp/)")
+    ap.add_argument("--root", help="kernel source tree (contains stock/)")
     ap.add_argument("--dist",
                     help="build output directory "
                          "(default: auto-detect out/*/dist)")
@@ -591,9 +613,10 @@ def main():
             log(f"warning: multiple dist directories, using {candidates[0]}")
         dist = candidates[0]
 
+    stock = stock_dir(root)
     for p in (dist / "Image.gz", dist / "mt6895.dtb",
-              root / "temp/boot.img", root / "temp/vendor_boot.img",
-              root / "temp/vendor_dlkm.img"):
+              stock / "boot.img", stock / "vendor_boot.img",
+              stock / "vendor_dlkm.img"):
         if not p.is_file():
             sys.exit(f"error: missing {p}")
 
@@ -602,17 +625,18 @@ def main():
 
     objcopy = find_tool(root, "llvm-objcopy", extra=[
         root / "prebuilts-master/clang/host/linux-x86/clang-r416183b/bin/"
-        "llvm-objcopy"])
+        "llvm-objcopy",
+        root.parent / "prebuilts-master/clang/host/linux-x86/"
+        "clang-r416183b/bin/llvm-objcopy"])
     depmod = find_tool(root, "depmod")
     lz4 = find_tool(root, "lz4")
     avbtool = find_tool(root, "avbtool")
     e2fsck = find_tool(root, "e2fsck")
     debugfs_bin = find_tool(root, "debugfs")
-    mkbootimg = str(root / "tools/mkbootimg/mkbootimg.py")
-    unpack = str(root / "tools/mkbootimg/unpack_bootimg.py")
-    dtboimg = find_tool(root, "mkdtboimg.py")
+    mkbootimg = str(root / "tools/pack/mkbootimg.py")
+    unpack = str(root / "tools/pack/unpack_bootimg.py")
 
-    release_file = dist.parent / "kernel-5.10/include/config/kernel.release"
+    release_file = dist.parent / "include/config/kernel.release"
     if not release_file.is_file():
         sys.exit(f"error: missing {release_file}")
     release = release_file.read_text().strip()
@@ -625,7 +649,7 @@ def main():
     # 2. Work out which module goes where, using the stock images as the
     #    source of truth for names and locations.
     log("[2/6] collecting stock module lists")
-    vdlkm_stock = root / "temp/vendor_dlkm.img"
+    vdlkm_stock = stock / "vendor_dlkm.img"
     vdlkm_names = [n for n in stock_dir_listing(root, vdlkm_stock,
                                                 "/lib/modules")
                    if n.endswith(".ko")]
@@ -634,13 +658,13 @@ def main():
     bdir = work / "stock_boot"
     if not (bdir / "ramdisk").is_file():
         bdir.mkdir(parents=True, exist_ok=True)
-        sh([sys.executable, unpack, "--boot_img", root / "temp/boot.img",
+        sh([sys.executable, unpack, "--boot_img", stock / "boot.img",
             "--out", bdir], capture=True)
     vdir = work / "stock_vendor_boot"
     if not (vdir / "vendor_ramdisk00").is_file():
         vdir.mkdir(parents=True, exist_ok=True)
         sh([sys.executable, unpack,
-            "--boot_img", root / "temp/vendor_boot.img",
+            "--boot_img", stock / "vendor_boot.img",
             "--out", vdir], capture=True)
 
     tmp_cpio = work / "stock_vendor_ramdisk.cpio"
@@ -677,7 +701,7 @@ def main():
 
     build_boot(root, dist, work, out, unpack, mkbootimg, avbtool)
     build_vendor_boot(root, dist, work, out, unpack, mkbootimg, avbtool,
-                      lz4, dtboimg, ramdisk_mods, ramdisk_meta)
+                      lz4, ramdisk_mods, ramdisk_meta)
     build_vendor_dlkm(root, work, out, avbtool, debugfs_bin, e2fsck,
                       vdlkm_mods, vdlkm_meta)
     build_vbmeta(work, out, avbtool)
