@@ -31,6 +31,7 @@ the images it produced.
 """
 
 import argparse
+import os
 import re
 import shutil
 import struct
@@ -710,14 +711,18 @@ def main():
                   dist / "mt6895.dtb", len(vdlkm_mods), len(ramdisk_mods)):
         sys.exit("verification failed")
 
+    def shown(path):
+        rel = os.path.relpath(path)
+        return path if rel.startswith("..") else rel
+
     log("")
     log(f"Images written to {out}")
     log("")
     log("Flash with:")
-    log("  fastboot flash boot        out/images/boot.img")
-    log("  fastboot flash vendor_boot out/images/vendor_boot.img")
-    log("  fastboot flash vendor_dlkm out/images/vendor_dlkm.img")
-    log("  fastboot flash vbmeta      out/images/vbmeta.img")
+    log(f"  fastboot flash boot        {shown(out / 'boot.img')}")
+    log(f"  fastboot flash vendor_boot {shown(out / 'vendor_boot.img')}")
+    log(f"  fastboot flash vendor_dlkm {shown(out / 'vendor_dlkm.img')}")
+    log(f"  fastboot flash vbmeta      {shown(out / 'vbmeta.img')}")
     log("  fastboot reboot")
     log("")
     log("vbmeta.img has verity and verification disabled (flags=3); it is")
