@@ -3,13 +3,11 @@ KBUILD_OPTIONS += CONFIG_VIRTUAL_RESERVE_MEMORY=m
 
 KERNEL_SRC ?= lib/module/$(shell uname -r)/build
 
-ifeq ($(CHIPSET_COMPANY), QCOM)
-EXTRA_SYMBOLS += $(KERNEL_SRC)/../vendor/oplus/kernel/cpu/sched/healthinfo/Module.symvers
-else ifeq ($(CHIPSET_COMPANY), MTK)
-EXTRA_SYMBOLS += ${OUT_DIR}/../vendor/oplus/kernel/cpu/sched/healthinfo/Module.symvers
-endif
+# osi_healthinfo is built in-tree (kernel/oplus_cpu/sched/sched_info), so its
+# symbols are resolved from the kernel's own Module.symvers and no external
+# symbol dump is needed.
 
 M ?= $(shell pwd)
 
 modules modules_install clean:
-	$(MAKE) -C $(KERNEL_SRC) M=$(M) $(KBUILD_OPTIONS) KBUILD_EXTRA_SYMBOLS="$(EXTRA_SYMBOLS)" $(@)
+	$(MAKE) -C $(KERNEL_SRC) M=$(M) $(KBUILD_OPTIONS) $(@)
