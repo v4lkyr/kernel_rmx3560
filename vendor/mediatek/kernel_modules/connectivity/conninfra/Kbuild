@@ -67,7 +67,7 @@ OPLUS_FEATURE_CONN_POWER_MONITOR := y
 ifeq ($(OPLUS_FEATURE_CONN_POWER_MONITOR),y)
 ccflags-y += -DOPLUS_FEATURE_CONN_POWER_MONITOR
 ccflags-y += -I$(KO_CODE_PATH)/platform/common
-endif /* OPLUS_FEATURE_CONN_POWER_MONITOR */
+endif # OPLUS_FEATURE_CONN_POWER_MONITOR
 
 # By Plaftfrom
 ifeq ($(CONFIG_MTK_COMBO_CHIP_CONSYS_6885),y)
@@ -149,7 +149,7 @@ $(MODULE_NAME)-objs += debug_utility/conninfra_dbg.o
 #CONNECTIVITY.WIFI.HARDWARE.POWER, 2022/06/30, add for mtk connectivity power monitor
 ifeq ($(OPLUS_FEATURE_CONN_POWER_MONITOR),y)
 $(MODULE_NAME)-objs += platform/common/oplus_conn_event.o
-endif  /* OPLUS_FEATURE_CONN_POWER_MONITOR */
+endif # OPLUS_FEATURE_CONN_POWER_MONITOR
 
 # By Plaftfrom
 ifeq ($(CONFIG_MTK_COMBO_CHIP_CONSYS_6885),y)
