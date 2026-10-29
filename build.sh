@@ -300,10 +300,18 @@ mkdir -p "$OUT"
 if ((RECONFIG)) || [[ ! -f $OUT/.config ]]; then
 	section "Generating .config"
 	MERGED=$OUT/.config.merged
+	MERGE_LOG=$OUT/merge_config.log
 	rm -f "$MERGED"
+	# merge_config.sh reports every value that a later fragment overrides as
+	# informational output.  Keep the log, but do not spam the build output.
 	# shellcheck disable=SC2086
-	ARCH=arm64 KCONFIG_CONFIG=$MERGED \
-		scripts/kconfig/merge_config.sh -m -r $DEFCONFIG_FRAGMENTS
+	if ! ARCH=arm64 KCONFIG_CONFIG=$MERGED \
+		scripts/kconfig/merge_config.sh -m -r $DEFCONFIG_FRAGMENTS \
+		> "$MERGE_LOG" 2>&1; then
+		cat "$MERGE_LOG" >&2
+		exit 1
+	fi
+	echo "Merged defconfig fragments (details: ${MERGE_LOG#"$ROOT"/})"
 	mv "$MERGED" "$OUT/.config"
 	make "${MAKE_ARGS[@]}" olddefconfig
 
