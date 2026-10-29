@@ -119,6 +119,7 @@ signed `vbmeta.img`.
 | `vendor_dlkm` free space | 41 blocks | similar; superblock timestamps differ |
 | AVB release string | `avbtool 1.2.0` | `avbtool 1.4.0` |
 | DTB ADSP `system` region | `0x900000` | `0xa00000` (matches this config) |
+| DTB cell declarations | implicit (dtc defaults) | explicit `#address-cells`/`#size-cells` on `dma-ranges`, i2c and `dp_tx` nodes (same values seen by the kernel) |
 | `realme_temp.ko` | present | omitted |
 
 Everything else (partition sizes, header fields, cmdline, ramdisk contents,
