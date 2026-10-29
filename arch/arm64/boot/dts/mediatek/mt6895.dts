@@ -921,6 +921,8 @@
 				"CAM_LARB14",
 				"CAM_MM1_GALS";
 		mediatek,ccu_rproc1 = <&ccu_rproc1>;
+		#address-cells = <2>;
+		#size-cells = <2>;
 		dma-ranges = <0x1 0x0 0x1 0x0 0x1 0x0>;
 		iommus = <&disp_iommu M4U_LARB19_PORT1>,
 			 <&disp_iommu M4U_LARB19_PORT0>;
@@ -1097,6 +1099,8 @@
 
 	ccu_rproc1: ccu_rproc1 {
 		compatible = "mediatek,ccu_rproc1";
+		#address-cells = <2>;
+		#size-cells = <2>;
 		dma-ranges = <0x1 0x0 0x1 0x0 0x1 0x0>;
 		iommus = <&disp_iommu M4U_LARB19_PORT3>,
 			<&disp_iommu M4U_LARB19_PORT2>;
@@ -1626,6 +1630,8 @@
 			apu_iommu0 = <&apu_iommu0>;
 			apu_iommu1 = <&apu_iommu1>;
 
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x0 0x0 0x0 0x0 0x1 0x0>;
 			iommus = <&apu_iommu0 M4U_LARB34_APU_CODE>;
 
@@ -1701,6 +1707,8 @@
 				<0 0x190e1000 0 0x1000>;
 			reg-names = "apu_logtop",
 					"apu_mbox";
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x0 0x0 0x0 0x0 0x1 0x0>;
 			iommus = <&apu_iommu1 M4U_LARB34_APU_CODE>;
 		};
@@ -1712,6 +1720,8 @@
 			status = "okay";
 			type = <1>;
 			mask = /bits/ 64 <0x00000003ffffffff>;
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x0 0x0 0x0 0x0 0x1 0x0>;
 			iommus = <&apu_iommu0 M4U_LARB34_APU_CODE>;
 		};
@@ -1722,6 +1732,8 @@
 			status = "okay";
 			type = <2>;
 			mask = /bits/ 64 <0x00000003ffffffff>;
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 			iommus = <&apu_iommu1 M4U_LARB34_APU_DATA>;
 		};
@@ -1738,6 +1750,8 @@
 			compatible = "mediatek, mdla-rv";
 			core_num = <2>;
 			version = <0x68950300>;
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x0 0x0 0x0 0x0 0x1 0x0>;
 			iommus = <&apu_iommu0 M4U_LARB34_APU_CODE>;
 		};
@@ -2767,6 +2781,8 @@
 				   <&pericfg_ao_clk CLK_PERAOP_1_DMA_BCLK>;
 			clock-names = "main", "dma";
 			clock-div = <1>;
+			#address-cells = <1>;
+			#size-cells = <0>;
 		};
 
 		i2c6: i2c@11281000 {
@@ -2778,6 +2794,8 @@
 				   <&pericfg_ao_clk CLK_PERAOP_1_DMA_BCLK>;
 			clock-names = "main", "dma";
 			clock-div = <1>;
+			#address-cells = <1>;
+			#size-cells = <0>;
 		};
 
 		i2c7: i2c@11d04000 {
@@ -3885,6 +3903,8 @@
 		pda: pda@1a100000 {
 			compatible = "mediatek,camera-pda";
 			reg = <0 0x1a100000 0 0x1000>;
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 			interrupts = <GIC_SPI 441 IRQ_TYPE_LEVEL_HIGH 0>;
 			clocks = <&camsys_mraw_clk CLK_CAM_MR_PDA0>,
@@ -4667,6 +4687,8 @@
 
 		mtk_iommu_test0 {
 			compatible = "mediatek,iommu-test-dom0";
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 			iommus = <&mdp_iommu M4U_LARB30_PORT6>;
 		};
@@ -4683,72 +4705,96 @@
 
 		mtk_iommu_test3 {
 			compatible = "mediatek,iommu-test-dom3";
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x1 0x0 0x1 0x0 0x1 0x0>;
 			iommus = <&mdp_iommu M4U_LARB31_CCU0>;
 		};
 
 		mtk_iommu_test4 {
 			compatible = "mediatek,iommu-test-dom4";
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x1 0x0 0x1 0x0 0x1 0x0>;
 			iommus = <&mdp_iommu M4U_LARB31_CCU1>;
 		};
 
 		mtk_iommu_test5 {
 			compatible = "mediatek,iommu-test-dom5";
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x1 0x0 0x1 0x0 0x1 0x0>;
 			iommus = <&disp_iommu M4U_LARB33_VIDEO_UP_512MB1>;
 		};
 
 		mtk_iommu_test6 {
 			compatible = "mediatek,iommu-test-dom6";
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x1 0x0 0x1 0x0 0x1 0x0>;
 			iommus = <&disp_iommu M4U_LARB33_VIDEO_UP_512MB2>;
 		};
 
 		mtk_iommu_test7 {
 			compatible = "mediatek,iommu-test-dom7";
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 			iommus = <&mdp_iommu M4U_LARB34_APU_DATA>;
 		};
 
 		mtk_iommu_test8 {
 			compatible = "mediatek,iommu-test-dom8";
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 			iommus = <&disp_iommu M4U_LARB4_PORT0>;
 		};
 
 		mtk_iommu_test9 {
 			compatible = "mediatek,iommu-test-dom9";
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 			iommus = <&mdp_iommu M4U_LARB5_PORT4>;
 		};
 
 		mtk_iommu_test_dmaheap_normal {
 			compatible = "mediatek,dmaheap-normal";
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 			iommus = <&disp_iommu M4U_LARB0_PORT0>;
 		};
 
 		mtk_iommu_test_dmaheap_normal_region {
 			compatible = "mediatek,dmaheap-sec-normal-region";
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 			iommus = <&mdp_iommu M4U_LARB0_PORT0>;
 		};
 
 		mtk_iommu_test_dmaheap_ccu0 {
 			compatible = "mediatek,dmaheap-sec-ccu0";
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 			iommus = <&disp_iommu M4U_LARB31_CCU0>;
 		};
 
 		mtk_iommu_test_dmaheap_up {
 			compatible = "mediatek,dmaheap-sec-up";
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 			iommus = <&disp_iommu M4U_LARB33_VIDEO_UP_512MB1>;
 		};
 
 		mtk_iommu_test_dmaheap_vdec {
 			compatible = "mediatek,dmaheap-sec-vdec";
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 			iommus = <&disp_iommu M4U_LARB4_PORT0>;
 		};
@@ -4981,6 +5027,8 @@
 				<0 0x1D900000 0 0x200000>,    /* TCM          */
 				<0 0x19001000 0 0x1000>;              /* apusys int */
 			default-dram = <0x0>;
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x0 0x0 0x0 0x0 0x1 0x0>;
 			boundary = <0x0>;
 			iommus = <&apu_iommu0 M4U_LARB34_APU_CODE>;
@@ -5662,6 +5710,8 @@
 			clocks = <&mminfra_config_clk CLK_MMINFRA_GCE_D>,
 				 <&mminfra_config_clk CLK_MMINFRA_GCE_26M>;
 			clock-names = "gce","gce-timer";
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 			iommus = <&mdp_iommu M4U_LARB32_GCE_DM>;
 			dma_mask_bit = <34>;
@@ -5706,6 +5756,8 @@
 			clocks = <&mminfra_config_clk CLK_MMINFRA_GCE_M>,
 				 <&mminfra_config_clk CLK_MMINFRA_GCE_26M>;
 			clock-names = "gce","gce-timer";
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 			iommus = <&mdp_iommu M4U_LARB32_GCE_MM>;
 			dma_mask_bit = <34>;
@@ -5764,6 +5816,8 @@
 			dispsys_num = <2>;
 			reg = <0 0x14000000 0 0x1000>,
 				<0 0x14400000 0 0x1000>;
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 			iommus = <&disp_iommu M4U_LARB0_PORT9>; /* M4U_PORT_L0_DISP_OVL1_2L_0 */
 			mediatek,larb = <&smi_larb0>;
@@ -6013,6 +6067,8 @@
 			clocks = <&mmsys0_config_clk CLK_MM0_DISP_OVL0>;
 			mediatek,larb = <&smi_larb0>;
 			mediatek,smi-id = <0>;
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 
 			iommus = <&disp_iommu M4U_LARB0_PORT7>, /* M4U_PORT_L0_DISP_OVL0_0_DISP */
@@ -6037,6 +6093,8 @@
 			clocks = <&mmsys0_config_clk CLK_MM0_DISP_OVL0_2L>;
 			mediatek,larb = <&smi_larb0>;
 			mediatek,smi-id = <0>;
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 
 			iommus = <&disp_iommu M4U_LARB0_PORT8>,	/* M4U_PORT_L0_DISP_OVL0_2L_0 */
@@ -6061,6 +6119,8 @@
 			clocks = <&mmsys0_config_clk CLK_MM0_DISP_OVL1_2L>;
 			mediatek,larb = <&smi_larb0>;
 			mediatek,smi-id = <0>;
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 
 			iommus = <&disp_iommu M4U_LARB0_PORT9>, /* M4U_PORT_L0_DISP_OVL1_2L_0 */
@@ -6093,6 +6153,8 @@
 			clocks = <&mmsys0_config_clk CLK_MM0_DISP_RDMA0>;
 			mediatek,larb = <&smi_larb0>;
 			mediatek,smi-id = <0>;
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 
 			iommus = <&disp_iommu M4U_LARB0_PORT12>; /* M4U_PORT_L0_DISP_RDMA0 */
@@ -6296,6 +6358,8 @@
 			fifo-size-uv-3plane = <148>;
 			mediatek,larb = <&smi_larb0>;
 			mediatek,smi-id = <0>;
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 			iommus = <&disp_iommu M4U_LARB0_PORT13>; /* M4U_PORT_L0_DISP_WDMA0 */
 		};
@@ -6308,6 +6372,8 @@
 			clocks = <&mmsys0_config_clk CLK_MM0_DISP_RDMA1>;
 			mediatek,larb = <&smi_larb1>;
 			mediatek,smi-id = <1>;
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 			iommus = <&disp_iommu M4U_LARB1_PORT5>;
 			interconnects =
@@ -6332,6 +6398,8 @@
 			fifo-size-uv-3plane = <74>;
 			mediatek,larb = <&smi_larb1>;
 			mediatek,smi-id = <1>;
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 			iommus = <&disp_iommu M4U_LARB1_PORT6>; /* M4U_PORT_L1_DISP_WDMA1 */
 		};
@@ -6351,6 +6419,8 @@
 			clocks = <&mmsys1_config_clk CLK_MM1_DISP_OVL0>;
 			mediatek,larb = <&smi_larb20>;
 			mediatek,smi-id = <20>;
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 			iommus = <&disp_iommu M4U_LARB20_PORT7>,
 				 <&disp_iommu M4U_LARB20_PORT2>;
@@ -6374,6 +6444,8 @@
 			clocks = <&mmsys1_config_clk CLK_MM1_DISP_OVL0_2L>;
 			mediatek,larb = <&smi_larb20>;
 			mediatek,smi-id = <20>;
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 			iommus = <&disp_iommu M4U_LARB20_PORT8>,
 				 <&disp_iommu M4U_LARB20_PORT3>;
@@ -6398,6 +6470,8 @@
 			clocks = <&mmsys1_config_clk CLK_MM1_DISP_OVL1_2L>;
 			mediatek,larb = <&smi_larb20>;
 			mediatek,smi-id = <20>;
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 			iommus = <&disp_iommu M4U_LARB20_PORT9>,
 				 <&disp_iommu M4U_LARB20_PORT4>;
@@ -6429,6 +6503,8 @@
 			clocks = <&mmsys1_config_clk CLK_MM1_DISP_RDMA0>;
 			mediatek,larb = <&smi_larb20>;
 			mediatek,smi-id = <20>;
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 			iommus = <&disp_iommu M4U_LARB20_PORT12>;
 			interconnects =
@@ -6588,6 +6664,8 @@
 			fifo-size-uv-3plane = <148>;
 			mediatek,larb = <&smi_larb20>;
 			mediatek,smi-id = <20>;
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 			iommus = <&disp_iommu M4U_LARB20_PORT13>;
 		};
@@ -6606,6 +6684,8 @@
 			clocks = <&mmsys1_config_clk CLK_MM1_DISP_RDMA1>;
 			mediatek,larb = <&smi_larb21>;
 			mediatek,smi-id = <21>;
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 			iommus = <&disp_iommu M4U_LARB21_PORT5>;
 			interconnects =
@@ -6655,6 +6735,7 @@
 			reg = <0 0x14800000 0 0x800000>;
 			power-domains = <&scpsys MT6895_POWER_DOMAIN_DP_TX>;
 			interrupts = <GIC_SPI 697 IRQ_TYPE_LEVEL_HIGH 0>;
+			#phy-cells = <0>;
 		};
 
 		disp_wdma3: disp_wdma1@1441f000 {
@@ -6670,18 +6751,24 @@
 			fifo-size-uv-3plane = <74>;
 			mediatek,larb = <&smi_larb21>;
 			mediatek,smi-id = <21>;
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 			iommus = <&disp_iommu M4U_LARB21_PORT6>;
 		};
 
 		hcp: hcp@0 {
 			compatible = "mediatek,hcp";
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 			iommus = <&mdp_iommu M4U_LARB15_PORT0>;
 		};
 
 		imgsys_fw: imgsys_fw@15000000 {
 			compatible = "mediatek,imgsys";
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 			reg = <0 0x15000000 0 0x4000>,	/* 0 IMGSYS_TOP */
 			      <0 0x15020000 0 0x10000>,	/* 1 IMGSYS_TRAW */
@@ -7781,6 +7868,8 @@
 	dvs: dvs@15300000 {
 			compatible = "mediatek,dvs";
 			reg = <0 0x15300000 0 0x1000>;
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 			interrupts = <GIC_SPI 509 IRQ_TYPE_LEVEL_HIGH 0>;
 			mboxes = <&gce_m 21 1000 CMDQ_THR_PRIO_1>;
@@ -7810,6 +7899,8 @@
 	dvp: dvp@15300800 {
 			compatible = "mediatek,dvp";
 			reg = <0 0x15300800 0 0x1000>;
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 			interrupts = <GIC_SPI 510 IRQ_TYPE_LEVEL_HIGH 0>;
 			mboxes = <&gce_m 21 1000 CMDQ_THR_PRIO_1>;
@@ -7839,6 +7930,8 @@
 		aie: aie@15310000 {
 			compatible = "mediatek,mt8195-aie", "mediatek,aie-hw3.0";
 			reg = <0 0x15310000 0 0x1000>;
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 			mboxes = <&gce_m 20 0 CMDQ_THR_PRIO_2>,
 				 <&gce_m_sec 11 CMDQ_NO_TIMEOUT CMDQ_THR_PRIO_2>;
@@ -7907,12 +8000,16 @@
 			<&disp_iommu M4U_LARB5_PORT6>,
 			<&disp_iommu M4U_LARB5_PORT7>,
 			<&disp_iommu M4U_LARB5_PORT8>;
+		#address-cells = <2>;
+		#size-cells = <2>;
 		dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 	};
 
 	vcu_iommu_venc {
 		compatible =  "mediatek,vcu-io-venc";
 		mediatek,vcuid = <0>;
+		#address-cells = <2>;
+		#size-cells = <2>;
 		dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 		iommus = <&disp_iommu M4U_LARB7_PORT0>,
 			<&disp_iommu M4U_LARB7_PORT1>,
@@ -7973,6 +8070,8 @@
 		mediatek,larbs = <&smi_larb4 &smi_larb5>;
 		interrupts = <GIC_SPI 605 IRQ_TYPE_LEVEL_HIGH 0>,
 			<GIC_SPI 608 IRQ_TYPE_LEVEL_HIGH 0>;
+		#address-cells = <2>;
+		#size-cells = <2>;
 		dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 		power-domains = <&scpsys MT6895_POWER_DOMAIN_VDE0>,
 			<&scpsys MT6895_POWER_DOMAIN_VDE1>;
@@ -8181,6 +8280,8 @@
 				<&disp_iommu M4U_LARB6_PORT1>,
 				<&disp_iommu M4U_LARB6_PORT2>,
 				<&disp_iommu M4U_LARB6_PORT3>;
+		#address-cells = <2>;
+		#size-cells = <2>;
 		dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 		power-domains = <&scpsys MT6895_POWER_DOMAIN_VDE0>;
 		mediatek,larbs = <&smi_larb6>;
@@ -8279,6 +8380,8 @@
 		mediatek,larbs = <&smi_larb7 &smi_larb8>;
 		interrupts = <GIC_SPI 418 IRQ_TYPE_LEVEL_HIGH 0>,
 				<GIC_SPI 423 IRQ_TYPE_LEVEL_HIGH 0>;
+		#address-cells = <2>;
+		#size-cells = <2>;
 		dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 		power-domains = <&scpsys  MT6895_POWER_DOMAIN_VEN0>,
 					<&scpsys MT6895_POWER_DOMAIN_VEN1>;
@@ -8573,6 +8676,8 @@
 			clock-names = "jpgenc";
 			power-domains = <&scpsys MT6895_POWER_DOMAIN_VEN0>;
 			mediatek,larb = <&smi_larb7>;
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 			iommus = <&disp_iommu M4U_LARB7_PORT7>,
 					<&disp_iommu M4U_LARB7_PORT8>,
@@ -8608,6 +8713,8 @@
 			clock-names = "MT_CG_VENC_JPGDEC",
 					"MT_CG_VENC_JPGDEC_C1";
 			power-domains = <&scpsys MT6895_POWER_DOMAIN_VEN0>;
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 			iommus = <&disp_iommu M4U_LARB7_PORT17>,
 				<&disp_iommu M4U_LARB7_PORT18>,
@@ -8639,6 +8746,8 @@
 			clock-names = "jpgenc_c1";
 			power-domains = <&scpsys MT6895_POWER_DOMAIN_VEN1>;
 			mediatek,larb = <&smi_larb8>;
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 			iommus = <&mdp_iommu M4U_LARB8_PORT7>,
 					<&mdp_iommu M4U_LARB8_PORT8>,
@@ -8743,6 +8852,8 @@
 				  "mbox3",
 				  "mbox4";
 
+		#address-cells = <2>;
+		#size-cells = <2>;
 		dma-ranges = <0x1 0x0 0x1 0x0 0x1 0x0>;
 		iommus = <&mdp_iommu M4U_LARB33_VIDEO_UP_256MB1>;
 		mediatek,smi = <&smi_mdp_common &smi_sysram_subcommon4>;
@@ -8803,6 +8914,8 @@
 	vcp_io2: vcp_iommu_vdec {
 		compatible =  "mediatek,vcp-io-vdec";
 		vcp-support = <2>;
+		#address-cells = <2>;
+		#size-cells = <2>;
 		dma-ranges = <0x1 0x0 0x1 0x0 0x1 0x0>;
 		iommus = <&mdp_iommu M4U_LARB33_VIDEO_UP_512MB1>;
 	};
@@ -8810,6 +8923,8 @@
 	vcp_io3: vcp_iommu_venc {
 		compatible =  "mediatek,vcp-io-venc";
 		vcp-support = <3>;
+		#address-cells = <2>;
+		#size-cells = <2>;
 		dma-ranges = <0x1 0x0 0x1 0x0 0x1 0x0>;
 		iommus = <&mdp_iommu M4U_LARB33_VIDEO_UP_512MB2>;
 	};
@@ -8817,6 +8932,8 @@
 	vcp_io4: vcp_iommu_work {
 		compatible = "mediatek,vcp-io-work";
 		vcp-support = <4>;
+		#address-cells = <2>;
+		#size-cells = <2>;
 		dma-ranges = <0x1 0x0 0x1 0x0 0x1 0x0>;
 		iommus = <&mdp_iommu M4U_LARB33_VIDEO_UP_256MB2>;
 	};
@@ -8843,6 +8960,8 @@
 			#clock-cells = <1>;
 			clocks = <&mdpsys_config_clk CLK_MDP_APB_BUS>;
 			clock-names = "MDP_APB_BUS";
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 			iommus = <&disp_iommu M4U_LARB2_PORT0>,
 					<&disp_iommu M4U_LARB2_PORT1>,
@@ -9318,6 +9437,8 @@
 				<CMDQ_EVENT_MDPSYS1_MDP_RDMA0_SW_RST_DONE_ENG_EVENT>;
 			event_frame_done = /bits/ 16
 				<CMDQ_EVENT_MDPSYS1_MDP_RDMA0_FRAME_DONE>;
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 			iommus = <&mdp_iommu M4U_LARB3_PORT0>;
 			interconnects =
@@ -9337,6 +9458,8 @@
 				<CMDQ_EVENT_MDPSYS1_MDP_RDMA1_SW_RST_DONE_ENG_EVENT>;
 			event_frame_done = /bits/ 16
 				<CMDQ_EVENT_MDPSYS1_MDP_RDMA1_FRAME_DONE>;
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 			iommus = <&mdp_iommu M4U_LARB3_PORT1>;
 			interconnects =
@@ -9464,6 +9587,8 @@
 			event_bufa = /bits/ 16 <CMDQ_SYNC_TOKEN_MML_BUFA>;
 			event_bufb = /bits/ 16 <CMDQ_SYNC_TOKEN_MML_BUFB>;
 			event_buf_next = /bits/ 16 <CMDQ_SYNC_TOKEN_MML_BUF_NEXT>;
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 			iommus = <&mdp_iommu M4U_LARB3_PORT2>;
 			interconnects =
@@ -9488,6 +9613,8 @@
 			event_bufa = /bits/ 16 <CMDQ_SYNC_TOKEN_MML_BUFA>;
 			event_bufb = /bits/ 16 <CMDQ_SYNC_TOKEN_MML_BUFB>;
 			event_buf_next = /bits/ 16 <CMDQ_SYNC_TOKEN_MML_BUF_NEXT>;
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 			iommus = <&mdp_iommu M4U_LARB3_PORT3>;
 			interconnects =
@@ -9527,6 +9654,8 @@
 				<CMDQ_EVENT_MDPSYS1_MDP_WROT2_SW_RST_DONE_ENG_EVENT>;
 			event_frame_done = /bits/ 16
 				<CMDQ_EVENT_MDPSYS1_MDP_WROT2_FRAME_DONE>;
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 			iommus = <&mdp_iommu M4U_LARB3_PORT7>;
 			interconnects =
@@ -9547,6 +9676,8 @@
 				<CMDQ_EVENT_MDPSYS1_MDP_WROT3_SW_RST_DONE_ENG_EVENT>;
 			event_frame_done = /bits/ 16
 				<CMDQ_EVENT_MDPSYS1_MDP_WROT3_FRAME_DONE>;
+			#address-cells = <2>;
+			#size-cells = <2>;
 			dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 			iommus = <&mdp_iommu M4U_LARB3_PORT8>;
 			interconnects =
@@ -10200,6 +10331,8 @@
 	remoteproc_ccd: remoteproc_ccd@1a030000 {
 		compatible = "mediatek,ccd";
 		reg = <0 0x1a030000 0 0x10000>;
+		#address-cells = <2>;
+		#size-cells = <2>;
 		dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 		iommus = <&mdp_iommu M4U_LARB16_PORT0>,
 			 <&mdp_iommu M4U_LARB16_PORT1>,
@@ -10231,6 +10364,8 @@
 		mediatek,cam-id = <0>;
 		mediatek,larbs = <&smi_larb16>;
 		interrupts = <GIC_SPI 428 IRQ_TYPE_LEVEL_HIGH 0>;
+		#address-cells = <2>;
+		#size-cells = <2>;
 		dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 		power-domains = <&scpsys MT6895_POWER_DOMAIN_CAM_MAIN>;
 		clocks = <&cam_main_r1a_clk CLK_CAM_MAIN_CAM2MM0_GALS_CON>,
@@ -10335,6 +10470,8 @@
 		mediatek,cam-id = <0>;
 		mediatek,larbs = <&smi_larb17>;
 		interrupts = <GIC_SPI 429 IRQ_TYPE_LEVEL_HIGH 0>;
+		#address-cells = <2>;
+		#size-cells = <2>;
 		dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 		power-domains = <&scpsys MT6895_POWER_DOMAIN_CAM_MAIN>;
 		clocks = <&cam_main_r1a_clk CLK_CAM_MAIN_CAM2MM0_GALS_CON>,
@@ -10389,6 +10526,8 @@
 		mediatek,cam-id = <1>;
 		mediatek,larbs = <&smi_larb27>;
 		interrupts = <GIC_SPI 430 IRQ_TYPE_LEVEL_HIGH 0>;
+		#address-cells = <2>;
+		#size-cells = <2>;
 		dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 		power-domains = <&scpsys MT6895_POWER_DOMAIN_CAM_MAIN>;
 		clocks = <&cam_main_r1a_clk CLK_CAM_MAIN_CAM2MM0_GALS_CON>,
@@ -10493,6 +10632,8 @@
 		mediatek,cam-id = <1>;
 		mediatek,larbs = <&smi_larb29>;
 		interrupts = <GIC_SPI 431 IRQ_TYPE_LEVEL_HIGH 0>;
+		#address-cells = <2>;
+		#size-cells = <2>;
 		dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 		power-domains = <&scpsys MT6895_POWER_DOMAIN_CAM_MAIN>;
 		clocks = <&cam_main_r1a_clk CLK_CAM_MAIN_CAM2MM0_GALS_CON>,
@@ -10547,6 +10688,8 @@
 		mediatek,cam-id = <2>;
 		mediatek,larbs = <&smi_larb28>;
 		interrupts = <GIC_SPI 432 IRQ_TYPE_LEVEL_HIGH 0>;
+		#address-cells = <2>;
+		#size-cells = <2>;
 		dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 		power-domains = <&scpsys MT6895_POWER_DOMAIN_CAM_MAIN>;
 		clocks = <&cam_main_r1a_clk CLK_CAM_MAIN_CAM2MM0_GALS_CON>,
@@ -10651,6 +10794,8 @@
 		mediatek,cam-id = <2>;
 		mediatek,larbs = <&smi_larb30>;
 		interrupts = <GIC_SPI 433 IRQ_TYPE_LEVEL_HIGH 0>;
+		#address-cells = <2>;
+		#size-cells = <2>;
 		dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 		power-domains = <&scpsys MT6895_POWER_DOMAIN_CAM_MAIN>;
 		clocks = <&cam_main_r1a_clk CLK_CAM_MAIN_CAM2MM0_GALS_CON>,
@@ -12638,6 +12783,8 @@ cpuqos_mode,dnth0,dnth1,upth0,upth1";
 	camisp_l13 {
 		compatible = "mediatek,camisp-larb";
 		mediatek,larb-id = <13>;
+		#address-cells = <2>;
+		#size-cells = <2>;
 		dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 		iommus = <&disp_iommu M4U_LARB13_PORT0>,
 			 <&disp_iommu M4U_LARB13_PORT1>,
@@ -12668,6 +12815,8 @@ cpuqos_mode,dnth0,dnth1,upth0,upth1";
 	camisp_l14 {
 		compatible = "mediatek,camisp-larb";
 		mediatek,larb-id = <14>;
+		#address-cells = <2>;
+		#size-cells = <2>;
 		dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 		iommus = <&mdp_iommu M4U_LARB14_PORT0>,
 			 <&mdp_iommu M4U_LARB14_PORT1>,
@@ -12697,6 +12846,8 @@ cpuqos_mode,dnth0,dnth1,upth0,upth1";
 	camisp_l25 {
 		compatible = "mediatek,camisp-larb";
 		mediatek,larb-id = <25>;
+		#address-cells = <2>;
+		#size-cells = <2>;
 		dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 		iommus = <&disp_iommu M4U_LARB25_PORT0>,
 			<&disp_iommu M4U_LARB25_PORT1>,
@@ -12717,6 +12868,8 @@ cpuqos_mode,dnth0,dnth1,upth0,upth1";
 	camisp_l26 {
 		compatible = "mediatek,camisp-larb";
 		mediatek,larb-id = <26>;
+		#address-cells = <2>;
+		#size-cells = <2>;
 		dma-ranges = <0x0 0x0 0x0 0x0 0x4 0x0>;
 		iommus = <&mdp_iommu M4U_LARB26_PORT0>,
 			<&mdp_iommu M4U_LARB26_PORT1>,
