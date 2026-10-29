@@ -821,6 +821,7 @@ static int ged_dvfs_fb_gpu_dvfs(int t_gpu_done_interval, int t_gpu_target,
 
 	static int margin_low_bound;
 	int ultra_high_step_size = (dvfs_step_mode & 0xff);
+	int t_gpu_target_hd = 0;
 
 	if (gpu_dvfs_enable == 0) {
 		ged_log_buf_print(ghLogBuf_DVFS,
@@ -912,7 +913,6 @@ static int ged_dvfs_fb_gpu_dvfs(int t_gpu_done_interval, int t_gpu_target,
 		margin_low_bound = 0;
 	}
 
-	int t_gpu_target_hd = 0;
 	if (dvfs_margin_mode & 0x10) {
 		/* dvfs_margin_mode == */
 		/* DYNAMIC_MARGIN_MODE_CONFIG_FPS_MARGIN or */
@@ -1156,16 +1156,18 @@ static int _slide_window_loading(unsigned int ui32loading)
 	unsigned int i = 0;
 	unsigned int slide_loading = 0;
 	unsigned int sum_slide = 0;
+	unsigned int slide_count;
+	int cidx;
 
 	if (g_loading_slide_window_size == 0 || g_loading_stride_size == 0)
 		return 0;
 
-	unsigned int slide_count = (g_loading_slide_window_size/g_loading_stride_size);
+	slide_count = (g_loading_slide_window_size/g_loading_stride_size);
 
 	if (slide_count == 0)
 		slide_count = 1;
 
-	int cidx = ++idx % slide_count;
+	cidx = ++idx % slide_count;
 
 	data[cidx] = ui32loading;
 
@@ -1306,8 +1308,12 @@ static bool ged_dvfs_policy(
 	int t_gpu_target = -1;
 	int temp = 0;
 	unsigned long long ullWnd = 0;
+	int floor;
 
 	int t_gpu_target_hd = 0;
+	int ultra_high, high, low, ultra_low;
+	int ultra_high_step_size, ultra_low_step_size;
+
 	if (g_tb_dvfs_margin_mode & DYNAMIC_TB_MASK) {
 		if (ged_kpi_timer_based_pick_riskyBQ(
 			&t_gpu_real, &t_gpu_pipe,
@@ -1355,7 +1361,7 @@ static bool ged_dvfs_policy(
 		gx_tb_dvfs_margin = g_tb_dvfs_margin_value;
 	}
 
-	int floor = g_tb_dvfs_margin_value_min * 10;
+	floor = g_tb_dvfs_margin_value_min * 10;
 #ifdef GED_DCS_POLICY
 	if (is_dcs_enable() && dcs_get_cur_core_num() < dcs_get_max_core_num()) {
 		if (gx_tb_dvfs_margin < DCS_POLICY_MARGIN / 10) {
@@ -1411,13 +1417,13 @@ static bool ged_dvfs_policy(
 		ui32GPULoading_avg = _loading_avg(ui32GPULoading);
 		Policy__Loading_based__Loading(ui32GPULoading, ui32GPULoading_avg);
 
-		int ultra_high = (110 - gx_tb_dvfs_margin_cur >= 95)
+		ultra_high = (110 - gx_tb_dvfs_margin_cur >= 95)
 			? 95 : 110 - gx_tb_dvfs_margin_cur;
-		int high = loading_ud_table[ui32GPUFreq].up;
-		int low = loading_ud_table[ui32GPUFreq].down;
-		int ultra_low = 20;
-		int ultra_high_step_size = (dvfs_step_mode & 0xff);
-		int ultra_low_step_size = (dvfs_step_mode & 0xff00) >> 8;
+		high = loading_ud_table[ui32GPUFreq].up;
+		low = loading_ud_table[ui32GPUFreq].down;
+		ultra_low = 20;
+		ultra_high_step_size = (dvfs_step_mode & 0xff);
+		ultra_low_step_size = (dvfs_step_mode & 0xff00) >> 8;
 
 		//ui32GPULoading >= 110 - gx_tb_dvfs_margin_cur || ui32GPULoading >= 95
 

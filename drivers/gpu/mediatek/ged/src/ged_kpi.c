@@ -874,6 +874,7 @@ static GED_BOOL ged_kpi_find_and_delete_miss_tag(u64 ulID, int i32FrameID
 static int ged_kpi_check_fallback_mode(void)
 {
 	int i, count = 0;
+	int main_producer_ratio;
 
 	if (!main_head)
 		return 1;
@@ -885,7 +886,7 @@ static int ged_kpi_check_fallback_mode(void)
 	}
 	count += main_head->i32Count;
 
-	int main_producer_ratio = count * 100 / GED_KPI_TOTAL_ITEMS;
+	main_producer_ratio = count * 100 / GED_KPI_TOTAL_ITEMS;
 
 	Policy__Common__Commit_Reason(main_producer_ratio, g_fb_dvfs_threshold);
 
